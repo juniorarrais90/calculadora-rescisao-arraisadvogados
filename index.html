@@ -37,13 +37,47 @@
   header {
     background: var(--navy);
     color: white;
-    padding: 24px 32px;
+    padding: 22px 32px;
     border-radius: 8px 8px 0 0;
     border-bottom: 4px solid var(--gold);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
   }
+
+  header .header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: 1;
+  }
+
+  header .logo {
+    height: 64px;
+    width: auto;
+    flex-shrink: 0;
+  }
+  header .logo-fallback {
+    display: none;
+    width: 60px;
+    height: 60px;
+    background: var(--gold);
+    color: var(--navy);
+    border-radius: 8px;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 32px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  header .logo:not([src]),
+  header .logo[src=""],
+  header .logo.broken {
+    display: none;
+  }
+  header .logo.broken + .logo-fallback { display: flex; }
 
   header .header-content h1 {
     font-size: 22px;
@@ -66,6 +100,7 @@
     background: rgba(255,255,255,0.08);
     padding: 4px 10px;
     border-radius: 3px;
+    flex-shrink: 0;
   }
 
   .main-grid {
@@ -95,6 +130,44 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  /* ============= BLOCOS TEMÁTICOS POR ASSUNTO ============= */
+  .section-block {
+    background: white;
+    border-left: 4px solid var(--navy);
+    border-radius: 0 6px 6px 0;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 1px 4px rgba(13, 35, 64, 0.05);
+    transition: box-shadow 0.2s;
+  }
+  .section-block:hover { box-shadow: 0 2px 8px rgba(13, 35, 64, 0.10); }
+  .section-block .section-title { margin-top: 0 !important; }
+  .section-block .section-title:not(:first-child) {
+    margin-top: 20px !important;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* Variantes temáticas — borda lateral + leve gradient no fundo */
+  .section-block--navy { border-left-color: var(--navy); background: linear-gradient(to right, rgba(13, 35, 64, 0.035), white 35%); }
+  .section-block--gold { border-left-color: var(--gold); background: linear-gradient(to right, rgba(201, 168, 76, 0.06), white 35%); }
+  .section-block--purple { border-left-color: #7c3aed; background: linear-gradient(to right, rgba(124, 58, 237, 0.05), white 35%); }
+  .section-block--warning { border-left-color: var(--warning); background: linear-gradient(to right, rgba(212, 160, 23, 0.06), white 35%); }
+  .section-block--info { border-left-color: var(--info); background: linear-gradient(to right, rgba(26, 115, 232, 0.05), white 35%); }
+  .section-block--danger { border-left-color: var(--danger); background: linear-gradient(to right, rgba(178, 34, 34, 0.04), white 35%); }
+  .section-block--success { border-left-color: var(--success); background: linear-gradient(to right, rgba(45, 106, 79, 0.05), white 35%); }
+
+  /* Cor do título acompanha o tema (sutil) */
+  .section-block--purple .section-title { color: #7c3aed; border-bottom-color: #7c3aed; }
+  .section-block--warning .section-title { color: var(--warning); border-bottom-color: var(--warning); }
+  .section-block--info .section-title { color: var(--info); border-bottom-color: var(--info); }
+  .section-block--danger .section-title { color: var(--danger); border-bottom-color: var(--danger); }
+  .section-block--success .section-title { color: var(--success); border-bottom-color: var(--success); }
+  .section-block--gold .section-title { color: var(--navy); border-bottom-color: var(--gold); }
+
+  /* O panel input precisa de padding menor para acomodar os blocos */
+  .panel-input .section-block:last-child { margin-bottom: 0; }
 
   .section-title .section-tag {
     font-size: 9px;
@@ -496,6 +569,16 @@
       padding-bottom: 14px;
       margin-bottom: 22px;
     }
+    .print-header-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .print-logo {
+      height: 70px;
+      width: auto;
+      flex-shrink: 0;
+    }
     .print-header h1 {
       font-size: 18pt;
       color: var(--navy);
@@ -591,7 +674,232 @@
       color: #6d4c00;
     }
 
+    /* ============= MINI-CARDS ESTATÍSTICOS (Resumo) ============= */
+    .print-stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+      page-break-inside: avoid;
+    }
+    .print-stat {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .print-stat-label {
+      font-size: 8pt;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .print-stat-value {
+      font-size: 13pt;
+      color: var(--navy);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .print-stat-value.sm { font-size: 10pt; line-height: 1.3; }
+    .print-stat-value.destaque { color: var(--gold); font-size: 14pt; }
+    .print-stat-value.aviso { color: var(--danger); }
+
+    /* ============= GRÁFICO DE PIZZA ============= */
+    .print-pizza-wrapper {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      page-break-inside: avoid;
+    }
+    .print-pizza-svg { flex-shrink: 0; }
+    .print-pizza-legenda { flex: 1; font-size: 9.5pt; line-height: 1.8; }
+    .print-pizza-legenda .item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      border-bottom: 1px dotted #ddd;
+    }
+    .print-pizza-legenda .item:last-child { border-bottom: none; }
+    .print-pizza-legenda .swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ============= LINHA DO TEMPO ============= */
+    .print-timeline {
+      page-break-inside: avoid;
+      margin: 14px 0;
+    }
+    .print-timeline svg { width: 100%; height: auto; }
+    .print-timeline-legenda {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px 12px;
+      margin-top: 10px;
+      font-size: 8.5pt;
+    }
+    .print-timeline-legenda .item {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* ============= TABELA TABULAR (Memorial) ============= */
+    .print-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      page-break-inside: avoid;
+      font-size: 9.5pt;
+    }
+    .print-table thead th {
+      background: var(--navy);
+      color: white;
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      font-size: 9.5pt;
+    }
+    .print-table thead th:last-child { text-align: right; }
+    .print-table tbody td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    .print-table tbody td:last-child {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .print-table tbody tr:nth-child(even) td { background: #fafafa; }
+    .print-table tbody tr.subtotal td {
+      background: rgba(13, 35, 64, 0.08);
+      font-weight: 700;
+      color: var(--navy);
+      border-top: 2px solid var(--navy);
+    }
+    .print-table .fundamento {
+      display: block;
+      font-size: 8pt;
+      color: #666;
+      font-style: italic;
+      margin-top: 3px;
+    }
+
     @page { margin: 1.5cm; size: A4; }
+
+    /* =================== MEMORIAL DETALHADO (sóbrio — para juntada processual) =================== */
+    /* Fundo navy atrás do logo para garantir contraste (logo PNG transparente tem detalhes brancos) */
+    body.print-memorial .print-logo {
+      background: var(--navy);
+      padding: 8px 12px;
+      border-radius: 4px;
+      box-sizing: content-box;
+    }
+    body.print-memorial .print-verba {
+      border-left: 2px solid #888;
+      background: #fafafa;
+    }
+    body.print-memorial .print-verba.deposito,
+    body.print-memorial .print-verba.pleito,
+    body.print-memorial .print-verba.desconto {
+      border-left-color: #888;
+      background: #fafafa;
+    }
+    body.print-memorial .print-aviso {
+      background: #f5f5f5;
+      border-left-color: #999;
+      color: #555;
+    }
+    body.print-memorial .print-section h2 {
+      color: #1a1a1a;
+      border-bottom: 1px solid #888;
+      letter-spacing: 0.4px;
+    }
+    body.print-memorial .print-row.total {
+      border-top: 2px solid var(--navy);
+      border-bottom: 2px solid var(--navy);
+    }
+    /* Mantém o cabeçalho institucional simples (navy + gold) no memorial */
+    body.print-memorial .print-header {
+      border-bottom: 3px double var(--navy);
+    }
+
+    /* =================== RESUMO EXECUTIVO (marca/identidade institucional) =================== */
+    body.print-resumo .print-doc {
+      padding: 0 40px 30px 40px;
+    }
+    body.print-resumo .print-header {
+      background: var(--navy);
+      color: white;
+      padding: 24px 32px;
+      margin: 0 -40px 24px -40px;
+      border-bottom: 4px solid var(--gold);
+    }
+    body.print-resumo .print-header h1 {
+      color: white;
+      font-size: 20pt;
+    }
+    body.print-resumo .print-header .subtitle {
+      color: var(--gold-light);
+      font-size: 10.5pt;
+    }
+    body.print-resumo .print-header .case-id {
+      color: rgba(255,255,255,0.8);
+    }
+    body.print-resumo .print-section h2 {
+      color: var(--navy);
+      background: rgba(13, 35, 64, 0.06);
+      padding: 7px 12px;
+      border-radius: 4px;
+      border-bottom: none;
+      border-left: 4px solid var(--gold);
+    }
+    body.print-resumo .print-row.total {
+      background: var(--navy);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 4px;
+      border: none;
+      margin-top: 10px;
+    }
+    body.print-resumo .print-row.total .value {
+      color: var(--gold-light);
+      font-size: 14pt;
+    }
+    body.print-resumo .print-section {
+      page-break-inside: avoid;
+      background: white;
+      border-radius: 4px;
+      padding: 4px 14px 8px 14px;
+      margin-bottom: 14px;
+      border-left: 3px solid var(--gold);
+    }
+    body.print-resumo .print-aviso {
+      background: #fff8e1;
+      border-left: 4px solid #d4a017;
+      border-radius: 4px;
+      color: #6d4c00;
+    }
+    body.print-resumo .print-footer {
+      background: rgba(13, 35, 64, 0.04);
+      padding: 14px;
+      margin-top: 30px;
+      margin-left: -14px;
+      margin-right: -14px;
+      border-radius: 4px;
+      border-top: 2px solid var(--gold);
+    }
   }
 
   @media (max-width: 900px) {
@@ -607,11 +915,15 @@
 <div class="container">
 
   <header>
-    <div class="header-content">
-      <h1>Calculadora de Rescisão Trabalhista</h1>
-      <p>Arrais Advogados · Cálculo de verbas rescisórias e simulação trabalhista</p>
+    <div class="header-left">
+      <img src="logo.png" alt="Arrais Advogados" class="logo" onerror="this.classList.add('broken')">
+      <div class="logo-fallback">A</div>
+      <div class="header-content">
+        <h1>Calculadora de Rescisão Trabalhista</h1>
+        <p>Arrais Advogados · Cálculo de verbas rescisórias e simulação trabalhista</p>
+      </div>
     </div>
-    <span class="version">v1.0.0</span>
+    <span class="version">v1.5.1</span>
   </header>
 
   <div class="main-grid">
@@ -624,6 +936,8 @@
         <span class="phase-tag">v1.0.0</span>
       </div>
 
+      <!-- BLOCO 1: IDENTIFICAÇÃO (navy) -->
+      <div class="section-block section-block--navy">
       <!-- IDENTIFICAÇÃO DO CASO -->
       <div class="section-title">
         Identificação do Caso
@@ -675,8 +989,12 @@
         </div>
       </div>
 
+      </div><!-- /BLOCO 1 -->
+
+      <!-- BLOCO 2: CONTRATO + REMUNERAÇÃO (gold) -->
+      <div class="section-block section-block--gold">
       <!-- CONTRATO DE TRABALHO -->
-      <div class="section-title" style="margin-top: 28px;">
+      <div class="section-title">
         Contrato de Trabalho
         <span class="section-tag">CLT</span>
       </div>
@@ -710,6 +1028,12 @@
         <div class="hint">Necessária para apurar eventual rescisão antecipada (arts. 479 e 480, CLT).</div>
       </div>
 
+      <div class="field">
+        <label for="data-referencia">Data de Referência para Prescrição</label>
+        <input type="date" id="data-referencia">
+        <div class="hint">Data presumida do ajuizamento (default: hoje). Usada para apurar prescrição bienal (art. 7º, XXIX, CF/88) e quinquenal.</div>
+      </div>
+
       <!-- REMUNERAÇÃO -->
       <div class="section-title" style="margin-top: 28px;">
         Remuneração
@@ -731,8 +1055,11 @@
         </div>
       </div>
 
-      <!-- ADICIONAIS E MÉDIAS REMUNERATÓRIAS (FASE 3) -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 2 -->
+
+      <!-- BLOCO 3: ADICIONAIS E MÉDIAS REMUNERATÓRIAS (purple — Fase 3) -->
+      <div class="section-block section-block--purple">
+      <div class="section-title">
         Adicionais e Médias Remuneratórias
         <span class="section-tag">Fase 3</span>
       </div>
@@ -835,8 +1162,11 @@
         </div>
       </div>
 
-      <!-- MODALIDADE DE RESCISÃO -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 3 -->
+
+      <!-- BLOCO 4: MODALIDADE DE RESCISÃO (navy — Fase 2) -->
+      <div class="section-block section-block--navy">
+      <div class="section-title">
         Modalidade de Rescisão
         <span class="section-tag">Fase 2</span>
       </div>
@@ -877,8 +1207,11 @@
         </div>
       </div>
 
-      <!-- PAGAMENTOS JÁ REALIZADOS -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 4 -->
+
+      <!-- BLOCO 5: PAGAMENTOS JÁ REALIZADOS (warning) -->
+      <div class="section-block section-block--warning">
+      <div class="section-title">
         Pagamentos Já Realizados
         <span class="section-tag">Descontos</span>
       </div>
@@ -920,8 +1253,11 @@
         </div>
       </div>
 
-      <!-- FGTS -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 5 -->
+
+      <!-- BLOCO 6: FGTS (info — Lei 8.036/90) -->
+      <div class="section-block section-block--info">
+      <div class="section-title">
         FGTS
         <span class="section-tag">Lei 8.036/90</span>
       </div>
@@ -950,8 +1286,11 @@
         </div>
       </div>
 
-      <!-- DESCONTOS LEGAIS (FASE 4) -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 6 -->
+
+      <!-- BLOCO 7: DESCONTOS LEGAIS (danger — INSS/IRRF) -->
+      <div class="section-block section-block--danger">
+      <div class="section-title">
         Descontos Legais
         <span class="section-tag">INSS · IRRF</span>
       </div>
@@ -976,8 +1315,11 @@
         </div>
       </div>
 
-      <!-- SIMULAÇÃO DE RECLAMAÇÃO TRABALHISTA (FASE 5) -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 7 -->
+
+      <!-- BLOCO 8: SIMULAÇÃO DE RECLAMAÇÃO TRABALHISTA (warning — Fase 5) -->
+      <div class="section-block section-block--warning">
+      <div class="section-title">
         Simulação de Reclamação Trabalhista
         <span class="section-tag">Fase 5</span>
       </div>
@@ -1037,51 +1379,51 @@
         </div>
       </div>
 
-      <!-- SUPRESSÃO DE INTERVALO INTRAJORNADA (PRÉ-REFORMA) -->
-      <div class="field-row">
-        <div class="field">
-          <label for="reclam-intra-pre-meses">Intrajornada suprimida — pré-reforma (meses)</label>
-          <input type="number" id="reclam-intra-pre-meses" min="0" max="60" step="1" value="0">
-          <div class="hint">Até 10/11/2017. Súm. 437, I, TST: hora cheia com reflexos.</div>
-        </div>
-        <div class="field">
-          <label for="reclam-intra-pre-valor">Valor mensal estimado (R$)</label>
-          <div class="currency-input">
-            <input type="text" id="reclam-intra-pre-valor" placeholder="0,00" inputmode="decimal">
-          </div>
-          <div class="hint">Hora cheia × 50% × dias trabalhados no mês. Inclui reflexos.</div>
-        </div>
+      <!-- SUPRESSÃO DE INTERVALO INTRAJORNADA -->
+      <div class="field">
+        <label for="reclam-intra-pos-modo">Intervalo intrajornada suprimido — modo de lançamento</label>
+        <select id="reclam-intra-pos-modo">
+          <option value="mensal">Valor mensal médio × meses</option>
+          <option value="total">Valor total apurado (sem multiplicação)</option>
+        </select>
+        <div class="hint">A partir de 11/11/2017. Art. 71, §4º, CLT: apenas o período suprimido, indenizatório (sem reflexos).</div>
       </div>
-
-      <!-- SUPRESSÃO DE INTERVALO INTRAJORNADA (PÓS-REFORMA) -->
       <div class="field-row">
-        <div class="field">
-          <label for="reclam-intra-pos-meses">Intrajornada suprimida — pós-reforma (meses)</label>
+        <div class="field" id="reclam-intra-pos-meses-field">
+          <label for="reclam-intra-pos-meses">Meses do período</label>
           <input type="number" id="reclam-intra-pos-meses" min="0" max="60" step="1" value="0">
-          <div class="hint">A partir de 11/11/2017. Art. 71, §4º, CLT: apenas o período suprimido, indenizatório (sem reflexos).</div>
+          <div class="hint">Cap 60 meses (prescrição).</div>
         </div>
         <div class="field">
-          <label for="reclam-intra-pos-valor">Valor mensal estimado (R$)</label>
+          <label for="reclam-intra-pos-valor" id="reclam-intra-pos-valor-label">Valor mensal médio (R$)</label>
           <div class="currency-input">
             <input type="text" id="reclam-intra-pos-valor" placeholder="0,00" inputmode="decimal">
           </div>
-          <div class="hint">Período efetivamente suprimido × 50%.</div>
+          <div class="hint" id="reclam-intra-pos-valor-hint">Período efetivamente suprimido × 50%.</div>
         </div>
       </div>
 
       <!-- SUPRESSÃO DE INTERVALO INTERJORNADA -->
+      <div class="field">
+        <label for="reclam-inter-modo">Interjornada — modo de lançamento</label>
+        <select id="reclam-inter-modo">
+          <option value="mensal">Valor mensal médio × meses</option>
+          <option value="total">Valor total apurado (sem multiplicação)</option>
+        </select>
+        <div class="hint">Art. 66, CLT (mínimo 11h). Súm. 110, TST: hora extra com reflexos. Natureza salarial.</div>
+      </div>
       <div class="field-row">
-        <div class="field">
-          <label for="reclam-inter-meses">Interjornada suprimida (meses)</label>
+        <div class="field" id="reclam-inter-meses-field">
+          <label for="reclam-inter-meses">Meses do período</label>
           <input type="number" id="reclam-inter-meses" min="0" max="60" step="1" value="0">
-          <div class="hint">Art. 66, CLT (mínimo 11h). Súm. 110, TST: hora extra com reflexos.</div>
+          <div class="hint">Cap 60 meses.</div>
         </div>
         <div class="field">
-          <label for="reclam-inter-valor">Valor mensal estimado (R$)</label>
+          <label for="reclam-inter-valor" id="reclam-inter-valor-label">Valor mensal médio (R$)</label>
           <div class="currency-input">
             <input type="text" id="reclam-inter-valor" placeholder="0,00" inputmode="decimal">
           </div>
-          <div class="hint">Horas faltantes para completar as 11h × 50%. Com reflexos.</div>
+          <div class="hint" id="reclam-inter-valor-hint">Horas faltantes p/ completar 11h × 50%. Com reflexos.</div>
         </div>
       </div>
 
@@ -1114,34 +1456,50 @@
       </div>
 
       <!-- VALE-TRANSPORTE NÃO ENTREGUE -->
+      <div class="field">
+        <label for="reclam-vt-modo">Vale-transporte não entregue — modo de lançamento</label>
+        <select id="reclam-vt-modo">
+          <option value="mensal">Valor mensal médio × meses</option>
+          <option value="total">Valor total apurado (sem multiplicação)</option>
+        </select>
+        <div class="hint">Lei 7.418/85; Súm. 460, TST. Natureza indenizatória — sem reflexos.</div>
+      </div>
       <div class="field-row">
-        <div class="field">
-          <label for="reclam-vt-meses">Vale-transporte não entregue (meses)</label>
+        <div class="field" id="reclam-vt-meses-field">
+          <label for="reclam-vt-meses">Meses do período</label>
           <input type="number" id="reclam-vt-meses" min="0" max="60" step="1" value="0">
-          <div class="hint">Lei 7.418/85; Súm. 460, TST. Natureza indenizatória — sem reflexos.</div>
+          <div class="hint">Cap 60 meses.</div>
         </div>
         <div class="field">
-          <label for="reclam-vt-valor">Valor mensal devido (R$)</label>
+          <label for="reclam-vt-valor" id="reclam-vt-valor-label">Valor mensal médio (R$)</label>
           <div class="currency-input">
             <input type="text" id="reclam-vt-valor" placeholder="0,00" inputmode="decimal">
           </div>
-          <div class="hint">Custo mensal real do transporte (descontados 6% legais do salário, se aplicável).</div>
+          <div class="hint" id="reclam-vt-valor-hint">Custo do transporte (descontados 6% legais, se aplicável).</div>
         </div>
       </div>
 
       <!-- VALE-ALIMENTAÇÃO / REFEIÇÃO NÃO ENTREGUE -->
+      <div class="field">
+        <label for="reclam-va-modo">Vale-alimentação/refeição não entregue — modo de lançamento</label>
+        <select id="reclam-va-modo">
+          <option value="mensal">Valor mensal médio × meses</option>
+          <option value="total">Valor total apurado (sem multiplicação)</option>
+        </select>
+        <div class="hint">Lei 6.321/76 (PAT) ou CCT/ACT. Indenizatório no PAT (art. 457, §2º, CLT).</div>
+      </div>
       <div class="field-row">
-        <div class="field">
-          <label for="reclam-va-meses">Vale-alimentação/refeição não entregue (meses)</label>
+        <div class="field" id="reclam-va-meses-field">
+          <label for="reclam-va-meses">Meses do período</label>
           <input type="number" id="reclam-va-meses" min="0" max="60" step="1" value="0">
-          <div class="hint">Lei 6.321/76 (PAT) ou CCT/ACT. Indenizatório no PAT (art. 457, §2º, CLT).</div>
+          <div class="hint">Cap 60 meses.</div>
         </div>
         <div class="field">
-          <label for="reclam-va-valor">Valor mensal devido (R$)</label>
+          <label for="reclam-va-valor" id="reclam-va-valor-label">Valor mensal médio (R$)</label>
           <div class="currency-input">
             <input type="text" id="reclam-va-valor" placeholder="0,00" inputmode="decimal">
           </div>
-          <div class="hint">Conforme previsto em CCT/ACT ou política da empresa.</div>
+          <div class="hint" id="reclam-va-valor-hint">Conforme CCT/ACT ou política da empresa.</div>
         </div>
       </div>
 
@@ -1180,8 +1538,11 @@
         <div class="hint">Súm. 389, II, TST: ausência de guias gera direito a indenização equivalente ao valor total do benefício que o empregado receberia do FAT. Só se aplica quando o empregado estaria habilitado.</div>
       </div>
 
-      <!-- ATUALIZAÇÃO MONETÁRIA E JUROS (FASE 6) -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 9 -->
+
+      <!-- BLOCO 10: ATUALIZAÇÃO MONETÁRIA E JUROS (info — Fase 6) -->
+      <div class="section-block section-block--info">
+      <div class="section-title">
         Atualização Monetária e Juros
         <span class="section-tag">Fase 6 · ADCs 58/59 STF</span>
       </div>
@@ -1255,8 +1616,11 @@
         <div class="hint">Art. 791-A, CLT: 5% a 15% sobre o valor da condenação. Padrão Arrais: 15%.</div>
       </div>
 
-      <!-- SEGURO-DESEMPREGO -->
-      <div class="section-title" style="margin-top: 28px;">
+      </div><!-- /BLOCO 8 -->
+
+      <!-- BLOCO 9: SEGURO-DESEMPREGO (success — Lei 7.998/90) -->
+      <div class="section-block section-block--success">
+      <div class="section-title">
         Seguro-Desemprego
         <span class="section-tag">Lei 7.998/90</span>
       </div>
@@ -1305,6 +1669,8 @@
         <div class="hint">A contagem de 16 meses corre dessa data — não da data em que o benefício foi pago ou encerrado.</div>
       </div>
 
+      </div><!-- /BLOCO 10 -->
+
       <div class="actions">
         <button class="btn-primary" onclick="calcular()">Calcular</button>
         <button class="btn-secondary" onclick="salvarCaso()">Salvar Caso</button>
@@ -1347,8 +1713,12 @@
   </div>
 
   <footer>
-    Arrais Advogados · Calculadora de Rescisão Trabalhista v1.0.0<br>
-    Os dados ficam salvos automaticamente no seu navegador (não são enviados a nenhum servidor).
+    <div style="margin-bottom: 10px;">
+      <strong style="color: var(--navy);">Arrais Sociedade de Advogados</strong> · OAB/MG nº 19.391 · CNPJ 60.284.876/0001-39<br>
+      Rua Carlos Peixoto Filho, n.º 112, Salas 203, 204 e 209 · Ed. Otocy Vilela Eiras · Centro · Ubá/MG · CEP 36500-097<br>
+      📞 (32) 99844-6488 · ✉ contato@arraisadv.com.br
+    </div>
+    Calculadora de Rescisão Trabalhista v1.5.1 · Os dados ficam salvos no seu navegador (não são enviados a nenhum servidor).
   </footer>
 
 </div>
@@ -1899,11 +2269,96 @@
     document.getElementById('bloco-piso-categoria').style.display = showPiso ? 'block' : 'none';
   });
 
+  /* ---------- Mutua exclusão entre insalubridade e periculosidade (art. 193, §2º, CLT) ---------- */
+  document.getElementById('insalub-grau').addEventListener('change', function(e) {
+    const valor = parseInt(e.target.value) || 0;
+    const periculo = document.getElementById('periculo');
+    if (valor > 0) {
+      periculo.value = '0';
+      periculo.disabled = true;
+      periculo.title = 'Bloqueado: insalubridade já marcada. Não cumula (art. 193, §2º, CLT).';
+    } else {
+      periculo.disabled = false;
+      periculo.title = '';
+    }
+  });
+  document.getElementById('periculo').addEventListener('change', function(e) {
+    const valor = parseInt(e.target.value) || 0;
+    const insalub = document.getElementById('insalub-grau');
+    const insalubBase = document.getElementById('insalub-base');
+    if (valor > 0) {
+      insalub.value = '0';
+      insalub.disabled = true;
+      insalub.title = 'Bloqueado: periculosidade já marcada. Não cumula (art. 193, §2º, CLT).';
+      insalubBase.disabled = true;
+      document.getElementById('bloco-piso-categoria').style.display = 'none';
+    } else {
+      insalub.disabled = false;
+      insalub.title = '';
+      insalubBase.disabled = false;
+    }
+  });
+
   /* ---------- Reagir à mudança de atualização monetária ---------- */
   document.getElementById('atualiz-aplicar').addEventListener('change', function(e) {
     const aplicar = e.target.value === 'sim';
     document.getElementById('bloco-atualizacao').style.display = aplicar ? 'block' : 'none';
   });
+
+  /* ---------- Modo de lançamento dos pleitos (mensal × meses OU total apurado) ---------- */
+  function atualizarModoPleito(prefixo, labelMensal, hintMensal, labelTotal, hintTotal) {
+    const modo = document.getElementById('reclam-' + prefixo + '-modo').value;
+    const mesesField = document.getElementById('reclam-' + prefixo + '-meses-field');
+    const valorLabel = document.getElementById('reclam-' + prefixo + '-valor-label');
+    const valorHint = document.getElementById('reclam-' + prefixo + '-valor-hint');
+    if (modo === 'total') {
+      if (mesesField) mesesField.style.display = 'none';
+      if (valorLabel) valorLabel.textContent = labelTotal;
+      if (valorHint) valorHint.textContent = hintTotal;
+    } else {
+      if (mesesField) mesesField.style.display = '';
+      if (valorLabel) valorLabel.textContent = labelMensal;
+      if (valorHint) valorHint.textContent = hintMensal;
+    }
+  }
+
+  // Configuração dos 5 pleitos com modo de lançamento
+  const PLEITOS_COM_MODO = [
+    { prefixo: 'intra-pos',
+      labelMensal: 'Valor mensal médio (R$)',
+      hintMensal: 'Período efetivamente suprimido × 50%.',
+      labelTotal: 'Valor total apurado (R$)',
+      hintTotal: 'Soma de todas as supressões no período inteiro.' },
+    { prefixo: 'inter',
+      labelMensal: 'Valor mensal médio (R$)',
+      hintMensal: 'Horas faltantes p/ completar 11h × 50%. Com reflexos.',
+      labelTotal: 'Valor total apurado (R$)',
+      hintTotal: 'Soma das diferenças no período inteiro, com reflexos.' },
+    { prefixo: 'vt',
+      labelMensal: 'Valor mensal médio (R$)',
+      hintMensal: 'Custo do transporte (descontados 6% legais, se aplicável).',
+      labelTotal: 'Valor total apurado (R$)',
+      hintTotal: 'Soma das diferenças/faltas no período inteiro.' },
+    { prefixo: 'va',
+      labelMensal: 'Valor mensal médio (R$)',
+      hintMensal: 'Conforme CCT/ACT ou política da empresa.',
+      labelTotal: 'Valor total apurado (R$)',
+      hintTotal: 'Soma das diferenças/faltas no período inteiro.' }
+  ];
+
+  PLEITOS_COM_MODO.forEach(cfg => {
+    const sel = document.getElementById('reclam-' + cfg.prefixo + '-modo');
+    if (!sel) return;
+    sel.addEventListener('change', () => {
+      atualizarModoPleito(cfg.prefixo, cfg.labelMensal, cfg.hintMensal, cfg.labelTotal, cfg.hintTotal);
+    });
+  });
+
+  function inicializarTodosModosPleito() {
+    PLEITOS_COM_MODO.forEach(cfg => {
+      atualizarModoPleito(cfg.prefixo, cfg.labelMensal, cfg.hintMensal, cfg.labelTotal, cfg.hintTotal);
+    });
+  }
 
   /* ---------- Reagir à mudança de "tem férias vencidas" ---------- */
   document.getElementById('tem-ferias-vencidas').addEventListener('change', function(e) {
@@ -1920,12 +2375,13 @@
   function renderListaPeriodos() {
     const adm = document.getElementById('data-admissao').value;
     const saida = document.getElementById('data-saida').value;
+    const dataRef = document.getElementById('data-referencia').value;
     const container = document.getElementById('lista-periodos-vencidos');
     if (!adm || !saida) {
       container.innerHTML = '<div class="empty-state" style="padding: 14px; font-size: 12px;">Informe admissão e saída para listar os períodos aquisitivos vencidos.</div>';
       return;
     }
-    const periodos = analisarPeriodosVencidos(adm, saida);
+    const periodos = analisarPeriodosVencidos(adm, saida, dataRef);
     if (periodos.length === 0) {
       container.innerHTML = '<div class="empty-state" style="padding: 14px; font-size: 12px;">Não há períodos aquisitivos vencidos integralmente para essas datas. Existe apenas o período em curso (proporcional).</div>';
       return;
@@ -1939,7 +2395,10 @@
       const saldo = 30 - dias;
       const integralGozado = dias >= 30;
       let cls, badgeHtml;
-      if (integralGozado) {
+      if (p.prescrito) {
+        cls = 'integral-gozado';
+        badgeHtml = '<span class="badge" style="background: rgba(178,34,34,0.12); color: var(--danger);">PRESCRITO — art. 149, CLT</span>';
+      } else if (integralGozado) {
         cls = 'integral-gozado';
         badgeHtml = '<span class="badge badge-neutral">Integralmente gozado</span>';
       } else if (p.dobrado) {
@@ -1949,9 +2408,16 @@
         cls = 'simples';
         badgeHtml = '<span class="badge badge-success">Simples — concessivo em curso</span>';
       }
-      const concessivoTxt = p.dobrado
-        ? `Concessivo expirou em ${formatDateBR_Date(p.fimConcessivo)}`
-        : `Concessivo em curso até ${formatDateBR_Date(p.fimConcessivo)}`;
+      let concessivoTxt;
+      if (p.prescrito) {
+        concessivoTxt = `Concessivo expirou em ${formatDateBR_Date(p.fimConcessivo)} · prescrição quinquenal consumada em ${formatDateBR_Date(p.dataPrescricao)}`;
+      } else {
+        concessivoTxt = p.dobrado
+          ? `Concessivo expirou em ${formatDateBR_Date(p.fimConcessivo)} · prescreve em ${formatDateBR_Date(p.dataPrescricao)}`
+          : `Concessivo em curso até ${formatDateBR_Date(p.fimConcessivo)}`;
+      }
+      const inputDisabled = p.prescrito ? 'disabled' : '';
+      const botoesDisabled = p.prescrito ? 'style="opacity:0.4; pointer-events:none;"' : '';
       return `
         <div class="periodo-item ${cls}">
           <div class="periodo-header">
@@ -1959,14 +2425,14 @@
             ${badgeHtml}
           </div>
           <div class="periodo-detalhe">${concessivoTxt}</div>
-          <div class="periodo-input">
+          <div class="periodo-input" ${botoesDisabled}>
             <label>Dias já gozados:</label>
-            <input type="number" min="0" max="30" step="1" value="${dias}" data-periodo-idx="${idx}" class="input-periodo-dias">
-            <span class="periodo-saldo">de 30 · saldo a pagar: <strong>${saldo}</strong> dia(s)</span>
+            <input type="number" min="0" max="30" step="1" value="${dias}" data-periodo-idx="${idx}" class="input-periodo-dias" ${inputDisabled}>
+            <span class="periodo-saldo">de 30 · ${p.prescrito ? 'sem pleito (prescrito)' : 'saldo a pagar: <strong>' + saldo + '</strong> dia(s)'}</span>
             <div class="periodo-quick">
-              <button type="button" onclick="setDiasPeriodo(${idx}, 0)">Não gozado</button>
-              <button type="button" onclick="setDiasPeriodo(${idx}, 15)">15 dias</button>
-              <button type="button" onclick="setDiasPeriodo(${idx}, 30)">Integral</button>
+              <button type="button" onclick="setDiasPeriodo(${idx}, 0)" ${p.prescrito ? 'disabled' : ''}>Não gozado</button>
+              <button type="button" onclick="setDiasPeriodo(${idx}, 15)" ${p.prescrito ? 'disabled' : ''}>15 dias</button>
+              <button type="button" onclick="setDiasPeriodo(${idx}, 30)" ${p.prescrito ? 'disabled' : ''}>Integral</button>
             </div>
           </div>
         </div>
@@ -1995,12 +2461,21 @@
   }
   window.setDiasPeriodo = setDiasPeriodo;
 
-  /* ---------- Análise automática da dobra (art. 137 CLT) ---------- */
-  function analisarPeriodosVencidos(admissaoStr, saidaStr) {
+  /* ---------- Análise automática da dobra (art. 137 CLT) e prescrição (art. 149 CLT) ---------- */
+  function analisarPeriodosVencidos(admissaoStr, saidaStr, dataReferenciaStr) {
     if (!admissaoStr || !saidaStr) return [];
     const admOrig = new Date(admissaoStr + 'T00:00:00');
     const saida = new Date(saidaStr + 'T00:00:00');
     if (saida <= admOrig) return [];
+
+    // Data de referência para prescrição quinquenal (default: hoje)
+    let refStr = dataReferenciaStr;
+    if (!refStr) {
+      const hj = new Date();
+      refStr = hj.getFullYear() + '-' + String(hj.getMonth() + 1).padStart(2, '0') + '-' + String(hj.getDate()).padStart(2, '0');
+    }
+    const refDate = new Date(refStr + 'T00:00:00');
+
     const periodos = [];
     let n = 0;
     while (n < 50) {
@@ -2013,20 +2488,26 @@
       const fimConcessivo = new Date(admOrig);
       fimConcessivo.setFullYear(fimConcessivo.getFullYear() + n + 2);
       fimConcessivo.setDate(fimConcessivo.getDate() - 1);
+      // Prescrição (art. 149, CLT): 5 anos contados do fim do prazo concessivo
+      const dataPrescr = new Date(fimConcessivo);
+      dataPrescr.setFullYear(dataPrescr.getFullYear() + 5);
+      const prescrito = refDate > dataPrescr;
       periodos.push({
         ordem: n + 1,
         inicio: new Date(inicio.getTime()),
         fim: new Date(fimPA.getTime()),
         fimConcessivo: new Date(fimConcessivo.getTime()),
-        dobrado: fimConcessivo < saida
+        dataPrescricao: new Date(dataPrescr.getTime()),
+        dobrado: fimConcessivo < saida,
+        prescrito
       });
       n++;
     }
     return periodos;
   }
 
-  // Re-render dos períodos quando datas mudam
-  ['data-admissao','data-saida'].forEach(id => {
+  // Re-render dos períodos quando datas (admissão, saída ou referência) mudam
+  ['data-admissao','data-saida','data-referencia'].forEach(id => {
     document.getElementById(id).addEventListener('change', renderListaPeriodos);
     document.getElementById(id).addEventListener('input', renderListaPeriodos);
   });
@@ -2055,6 +2536,45 @@
     document.getElementById(id).addEventListener('change', atualizarFgtsDevidoEstimado);
     document.getElementById(id).addEventListener('input', atualizarFgtsDevidoEstimado);
   });
+
+  /* ---------- Análise prescricional (art. 7º, XXIX, CF/88) ---------- */
+  function analisarPrescricao(dataSaida, dataReferencia) {
+    // dataReferencia padrão: hoje
+    let ref = dataReferencia;
+    if (!ref) {
+      const hoje = new Date();
+      ref = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0') + '-' + String(hoje.getDate()).padStart(2, '0');
+    }
+    if (!dataSaida) {
+      return { bienalPrescrita: false, dataLimiteQuinquenal: null, dataReferencia: ref, mesesMaxRetroativos: 60 };
+    }
+    const saida = new Date(dataSaida + 'T00:00:00');
+    const refDate = new Date(ref + 'T00:00:00');
+    // Bienal: 2 anos contados do término do contrato
+    const limiteBienal = new Date(saida);
+    limiteBienal.setFullYear(limiteBienal.getFullYear() + 2);
+    const bienalPrescrita = refDate > limiteBienal;
+
+    // Quinquenal: 5 anos retroativos da data de referência (ajuizamento)
+    const limiteQuinquenal = new Date(refDate);
+    limiteQuinquenal.setFullYear(limiteQuinquenal.getFullYear() - 5);
+
+    // Máximo de meses retroativos da data de saída até o limite quinquenal
+    let mesesMax = 0;
+    if (saida > limiteQuinquenal) {
+      const diffMs = saida - limiteQuinquenal;
+      mesesMax = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 30.4375)); // meses médios
+      mesesMax = Math.max(0, Math.min(60, mesesMax));
+    }
+
+    return {
+      bienalPrescrita,
+      limiteBienal,
+      dataLimiteQuinquenal: limiteQuinquenal,
+      dataReferencia: ref,
+      mesesMaxRetroativos: mesesMax
+    };
+  }
 
   /* ---------- Cálculo do tempo de contrato ---------- */
   function calcularTempoContrato(admissao, saida) {
@@ -2166,6 +2686,7 @@
       dataAdmissao: document.getElementById('data-admissao').value,
       dataSaida: document.getElementById('data-saida').value,
       dataTerminoPrevisto: document.getElementById('data-termino-previsto').value,
+      dataReferencia: document.getElementById('data-referencia').value,
       salarioBase: parseNumberInput(document.getElementById('salario-base').value),
       jornadaSemanal: parseInt(document.getElementById('jornada-semanal').value) || 44,
       modalidade: document.getElementById('modalidade').value,
@@ -2202,17 +2723,19 @@
       reclamAdicionalValor: parseNumberInput(document.getElementById('reclam-adicional-valor').value),
       reclamDanoMoral: parseNumberInput(document.getElementById('reclam-dano-moral').value),
       reclamEstabilidadeMeses: parseInt(document.getElementById('reclam-estabilidade-meses').value) || 0,
-      reclamIntraPreMeses: parseInt(document.getElementById('reclam-intra-pre-meses').value) || 0,
-      reclamIntraPreValor: parseNumberInput(document.getElementById('reclam-intra-pre-valor').value),
+      reclamIntraPosModo: document.getElementById('reclam-intra-pos-modo').value,
       reclamIntraPosMeses: parseInt(document.getElementById('reclam-intra-pos-meses').value) || 0,
       reclamIntraPosValor: parseNumberInput(document.getElementById('reclam-intra-pos-valor').value),
+      reclamInterModo: document.getElementById('reclam-inter-modo').value,
       reclamInterMeses: parseInt(document.getElementById('reclam-inter-meses').value) || 0,
       reclamInterValor: parseNumberInput(document.getElementById('reclam-inter-valor').value),
       reclamDifSalTipo: document.getElementById('reclam-difsal-tipo').value,
       reclamDifSalMeses: parseInt(document.getElementById('reclam-difsal-meses').value) || 0,
       reclamDifSalValor: parseNumberInput(document.getElementById('reclam-difsal-valor').value),
+      reclamVtModo: document.getElementById('reclam-vt-modo').value,
       reclamVtMeses: parseInt(document.getElementById('reclam-vt-meses').value) || 0,
       reclamVtValor: parseNumberInput(document.getElementById('reclam-vt-valor').value),
+      reclamVaModo: document.getElementById('reclam-va-modo').value,
       reclamVaMeses: parseInt(document.getElementById('reclam-va-meses').value) || 0,
       reclamVaValor: parseNumberInput(document.getElementById('reclam-va-valor').value),
       reclamForaMeses: parseInt(document.getElementById('reclam-fora-meses').value) || 0,
@@ -2290,11 +2813,16 @@
      SIMULAÇÃO DE RECLAMAÇÃO TRABALHISTA (Fase 5)
      Pleitos típicos com prescrição quinquenal (art. 7º, XXIX, CF/88)
      ========================================================= */
-  function calcularSimulacaoTrabalhista(inputs, verbasRescisao, remuneracao, diasAvisoFinal, seguroDesemprego) {
+  function calcularSimulacaoTrabalhista(inputs, verbasRescisao, remuneracao, diasAvisoFinal, seguroDesemprego, prescricao) {
     const pleitos = [];
     const remBase = remuneracao ? remuneracao.remuneracaoTotal : inputs.salarioBase;
+    // Cap quinquenal: limita os meses retroativos ao máximo permitido pela prescrição
+    const capMesesPrescricao = prescricao ? prescricao.mesesMaxRetroativos : 60;
+    function limitarMesesPorPrescricao(meses) {
+      const efetivo = Math.min(60, meses);
+      return Math.min(efetivo, capMesesPrescricao);
+    }
     // Auxiliar: calcula reflexo no aviso prévio (Súm. 132 TST + jurisprudência)
-    // valor mensal médio × (diasAviso / 30) = diferença no aviso pago a menor
     function reflexoAviso(valorMensal) {
       if (!diasAvisoFinal || diasAvisoFinal <= 0) return 0;
       return (valorMensal / 30) * diasAvisoFinal;
@@ -2330,8 +2858,13 @@
 
     // 3) Horas extras retroativas (com reflexos automáticos)
     if (inputs.reclamHeMeses > 0 && inputs.reclamHeValor > 0) {
-      const meses = Math.min(60, inputs.reclamHeMeses);
+      const mesesSolicitados = Math.min(60, inputs.reclamHeMeses);
+      const meses = limitarMesesPorPrescricao(inputs.reclamHeMeses);
+      const mesesPrescritosHE = mesesSolicitados - meses;
       const principal = meses * inputs.reclamHeValor;
+      if (mesesPrescritosHE > 0) {
+        registrarPrescritoQuinquenal('Horas extras (período prescrito)', mesesPrescritosHE * inputs.reclamHeValor, mesesPrescritosHE, inputs.reclamHeValor, 'Art. 7º, XVI e XXIX, CF/88');
+      }
       // Reflexos típicos: DSR (1/6), 13º (1/12), férias + 1/3, aviso, FGTS (8%) + multa 40%
       const dsr = principal / 6;
       const reflexo13 = (principal + dsr) / 12;
@@ -2351,8 +2884,13 @@
 
     // 4) Adicional retroativo (insalubridade, periculosidade, noturno) — com reflexos básicos
     if (inputs.reclamAdicionalMeses > 0 && inputs.reclamAdicionalValor > 0) {
-      const meses = Math.min(60, inputs.reclamAdicionalMeses);
+      const mesesSolicitadosAd = Math.min(60, inputs.reclamAdicionalMeses);
+      const meses = limitarMesesPorPrescricao(inputs.reclamAdicionalMeses);
+      const mesesPrescritosAd = mesesSolicitadosAd - meses;
       const principal = meses * inputs.reclamAdicionalValor;
+      if (mesesPrescritosAd > 0) {
+        registrarPrescritoQuinquenal('Adicional retroativo (período prescrito)', mesesPrescritosAd * inputs.reclamAdicionalValor, mesesPrescritosAd, inputs.reclamAdicionalValor, 'Arts. 192, 193, 73, CLT; art. 7º, XXIX, CF/88');
+      }
       const reflexo13 = principal / 12;
       const reflexoFerias = (principal / 12) * (4 / 3);
       const reflexoAv = reflexoAviso(inputs.reclamAdicionalValor);
@@ -2389,85 +2927,112 @@
       });
     }
 
-    // 7) Supressão de intervalo intrajornada — pré-reforma (Súm. 437, I, TST)
-    if (inputs.reclamIntraPreMeses > 0 && inputs.reclamIntraPreValor > 0) {
-      const meses = Math.min(60, inputs.reclamIntraPreMeses);
-      const principal = meses * inputs.reclamIntraPreValor;
-      // Reflexos completos (natureza salarial)
-      const reflexo13 = principal / 12;
-      const reflexoFerias = (principal / 12) * (4 / 3);
-      const subRefRem = principal + reflexo13 + reflexoFerias;
-      const reflexoFgts = subRefRem * 0.08;
-      const reflexoMultaFgts = reflexoFgts * 0.40;
-      const total = subRefRem + reflexoFgts + reflexoMultaFgts;
-      pleitos.push({
-        nome: 'Intrajornada suprimida (pré-reforma) + reflexos',
-        valor: total,
-        detalhe: `Principal: ${meses} meses × ${formatCurrency(inputs.reclamIntraPreValor)} = ${formatCurrency(principal)}. Hora cheia com 50%, natureza salarial — reflexos em 13º, férias + 1/3, FGTS e multa.`,
-        fundamento: 'Art. 71, §4º, CLT (redação anterior à Lei 13.467/2017); Súm. 437, I, TST'
-      });
+    // Helper: apura principal conforme modo (mensal × meses OU total apurado) com cap quinquenal
+    function apurarPrincipal(modo, meses, valor) {
+      if (modo === 'total') {
+        return { principal: valor, prescritoQuinquenal: 0, mesesPrescritos: 0, descricao: `Valor total apurado: ${formatCurrency(valor)}` };
+      }
+      const mOriginal = Math.min(60, meses);
+      const mEfetivo = limitarMesesPorPrescricao(meses);
+      const p = mEfetivo * valor;
+      const mPrescritos = mOriginal - mEfetivo;
+      const prescritoQuinquenal = mPrescritos * valor;
+      const obsPrescr = mEfetivo < mOriginal
+        ? ` (limitado de ${mOriginal} para ${mEfetivo} meses pela prescrição quinquenal)`
+        : '';
+      return { principal: p, prescritoQuinquenal, mesesPrescritos: mPrescritos, descricao: `${mEfetivo} meses × ${formatCurrency(valor)} = ${formatCurrency(p)}${obsPrescr}` };
     }
 
-    // 8) Supressão de intervalo intrajornada — pós-reforma (art. 71, §4º, redação atual)
-    if (inputs.reclamIntraPosMeses > 0 && inputs.reclamIntraPosValor > 0) {
-      const meses = Math.min(60, inputs.reclamIntraPosMeses);
-      const total = meses * inputs.reclamIntraPosValor;
-      pleitos.push({
-        nome: 'Intrajornada suprimida (pós-reforma) — indenizatória',
-        valor: total,
-        detalhe: `${meses} meses × ${formatCurrency(inputs.reclamIntraPosValor)}. Período efetivamente suprimido com adicional de 50%. Natureza indenizatória — sem reflexos.`,
-        fundamento: 'Art. 71, §4º, CLT (redação Lei 13.467/2017)'
-      });
+    // Lista paralela: pleitos PRESCRITOS (apenas para registro/transparência)
+    const pleitosPrescritos = [];
+    function registrarPrescritoQuinquenal(nome, valorPrescrito, mesesPrescritos, valorMensal, fundamento) {
+      if (valorPrescrito > 0) {
+        pleitosPrescritos.push({
+          nome,
+          valor: valorPrescrito,
+          detalhe: `${mesesPrescritos} mês(es) prescritos × ${formatCurrency(valorMensal)} = ${formatCurrency(valorPrescrito)}. Não pleiteável por força da prescrição quinquenal.`,
+          fundamento
+        });
+      }
+    }
+
+    // 7) Supressão de intervalo intrajornada (art. 71, §4º, CLT, redação Lei 13.467/2017)
+    {
+      const tem = (inputs.reclamIntraPosModo === 'total' ? inputs.reclamIntraPosValor > 0 : (inputs.reclamIntraPosMeses > 0 && inputs.reclamIntraPosValor > 0));
+      if (tem) {
+        const ap = apurarPrincipal(inputs.reclamIntraPosModo, inputs.reclamIntraPosMeses, inputs.reclamIntraPosValor);
+        pleitos.push({
+          nome: 'Intervalo intrajornada suprimido (indenizatório)',
+          valor: ap.principal,
+          detalhe: `${ap.descricao}. Período efetivamente suprimido com adicional de 50%. Natureza indenizatória — sem reflexos.`,
+          fundamento: 'Art. 71, §4º, CLT (redação Lei 13.467/2017)'
+        });
+        registrarPrescritoQuinquenal('Intervalo intrajornada suprimido (período prescrito)', ap.prescritoQuinquenal, ap.mesesPrescritos, inputs.reclamIntraPosValor, 'Art. 71, §4º, CLT; art. 7º, XXIX, CF/88');
+      }
     }
 
     // 9) Supressão de intervalo interjornada (art. 66, CLT)
-    if (inputs.reclamInterMeses > 0 && inputs.reclamInterValor > 0) {
-      const meses = Math.min(60, inputs.reclamInterMeses);
-      const principal = meses * inputs.reclamInterValor;
-      // Reflexos completos (mantém natureza salarial — hora extra)
-      const reflexo13 = principal / 12;
-      const reflexoFerias = (principal / 12) * (4 / 3);
-      const subRefRem = principal + reflexo13 + reflexoFerias;
-      const reflexoFgts = subRefRem * 0.08;
-      const reflexoMultaFgts = reflexoFgts * 0.40;
-      const total = subRefRem + reflexoFgts + reflexoMultaFgts;
-      pleitos.push({
-        nome: 'Interjornada suprimida + reflexos',
-        valor: total,
-        detalhe: `Principal: ${meses} meses × ${formatCurrency(inputs.reclamInterValor)} = ${formatCurrency(principal)}. Horas faltantes para 11h, pagas como hora extra (50%), com reflexos em 13º, férias + 1/3, FGTS e multa.`,
-        fundamento: 'Art. 66, CLT; Súm. 110, TST; OJ 355, SDI-1, TST (cancelada e convertida)'
-      });
+    {
+      const tem = (inputs.reclamInterModo === 'total' ? inputs.reclamInterValor > 0 : (inputs.reclamInterMeses > 0 && inputs.reclamInterValor > 0));
+      if (tem) {
+        const ap = apurarPrincipal(inputs.reclamInterModo, inputs.reclamInterMeses, inputs.reclamInterValor);
+        const principal = ap.principal;
+        const reflexo13 = principal / 12;
+        const reflexoFerias = (principal / 12) * (4 / 3);
+        const subRefRem = principal + reflexo13 + reflexoFerias;
+        const reflexoFgts = subRefRem * 0.08;
+        const reflexoMultaFgts = reflexoFgts * 0.40;
+        const total = subRefRem + reflexoFgts + reflexoMultaFgts;
+        pleitos.push({
+          nome: 'Interjornada suprimida + reflexos',
+          valor: total,
+          detalhe: `Principal: ${ap.descricao}. Horas faltantes para 11h, pagas como hora extra (50%), com reflexos em 13º, férias + 1/3, FGTS e multa.`,
+          fundamento: 'Art. 66, CLT; Súm. 110, TST; OJ 355, SDI-1, TST (cancelada e convertida)'
+        });
+        registrarPrescritoQuinquenal('Interjornada suprimida (período prescrito)', ap.prescritoQuinquenal, ap.mesesPrescritos, inputs.reclamInterValor, 'Art. 66, CLT; art. 7º, XXIX, CF/88');
+      }
     }
 
     // 10.A) Vale-transporte não entregue (Lei 7.418/85 — natureza indenizatória, sem reflexos)
-    if (inputs.reclamVtMeses > 0 && inputs.reclamVtValor > 0) {
-      const meses = Math.min(60, inputs.reclamVtMeses);
-      const total = meses * inputs.reclamVtValor;
-      pleitos.push({
-        nome: 'Vale-transporte não entregue',
-        valor: total,
-        detalhe: `${meses} meses × ${formatCurrency(inputs.reclamVtValor)}. Natureza indenizatória — sem reflexos.`,
-        fundamento: 'Lei 7.418/1985; Decreto 95.247/1987; Súm. 460, TST (ônus do empregador)'
-      });
+    {
+      const tem = (inputs.reclamVtModo === 'total' ? inputs.reclamVtValor > 0 : (inputs.reclamVtMeses > 0 && inputs.reclamVtValor > 0));
+      if (tem) {
+        const ap = apurarPrincipal(inputs.reclamVtModo, inputs.reclamVtMeses, inputs.reclamVtValor);
+        pleitos.push({
+          nome: 'Vale-transporte não entregue',
+          valor: ap.principal,
+          detalhe: `${ap.descricao}. Natureza indenizatória — sem reflexos.`,
+          fundamento: 'Lei 7.418/1985; Decreto 95.247/1987; Súm. 460, TST (ônus do empregador)'
+        });
+        registrarPrescritoQuinquenal('Vale-transporte (período prescrito)', ap.prescritoQuinquenal, ap.mesesPrescritos, inputs.reclamVtValor, 'Lei 7.418/85; art. 7º, XXIX, CF/88');
+      }
     }
 
     // 10.B) Vale-alimentação/refeição não entregue
     // Tratado como indenizatório (PAT ou CCT após reforma — art. 457, §2º, CLT)
-    if (inputs.reclamVaMeses > 0 && inputs.reclamVaValor > 0) {
-      const meses = Math.min(60, inputs.reclamVaMeses);
-      const total = meses * inputs.reclamVaValor;
-      pleitos.push({
-        nome: 'Vale-alimentação/refeição não entregue',
-        valor: total,
-        detalhe: `${meses} meses × ${formatCurrency(inputs.reclamVaValor)}. Natureza indenizatória (PAT ou CCT/ACT, art. 457, §2º, CLT).`,
-        fundamento: 'Lei 6.321/1976 (PAT); art. 457, §2º, CLT; cláusula de CCT/ACT'
-      });
+    {
+      const tem = (inputs.reclamVaModo === 'total' ? inputs.reclamVaValor > 0 : (inputs.reclamVaMeses > 0 && inputs.reclamVaValor > 0));
+      if (tem) {
+        const ap = apurarPrincipal(inputs.reclamVaModo, inputs.reclamVaMeses, inputs.reclamVaValor);
+        pleitos.push({
+          nome: 'Vale-alimentação/refeição não entregue',
+          valor: ap.principal,
+          detalhe: `${ap.descricao}. Natureza indenizatória (PAT ou CCT/ACT, art. 457, §2º, CLT).`,
+          fundamento: 'Lei 6.321/1976 (PAT); art. 457, §2º, CLT; cláusula de CCT/ACT'
+        });
+        registrarPrescritoQuinquenal('Vale-alimentação (período prescrito)', ap.prescritoQuinquenal, ap.mesesPrescritos, inputs.reclamVaValor, 'Lei 6.321/76; art. 7º, XXIX, CF/88');
+      }
     }
 
     // 10.C) Pagamento por fora / extra-folha — natureza salarial, com reflexos
     if (inputs.reclamForaMeses > 0 && inputs.reclamForaValor > 0) {
-      const meses = Math.min(60, inputs.reclamForaMeses);
+      const mesesSolicitadosF = Math.min(60, inputs.reclamForaMeses);
+      const meses = limitarMesesPorPrescricao(inputs.reclamForaMeses);
+      const mesesPrescritosF = mesesSolicitadosF - meses;
       const principal = meses * inputs.reclamForaValor;
+      if (mesesPrescritosF > 0) {
+        registrarPrescritoQuinquenal('Pagamento por fora (período prescrito)', mesesPrescritosF * inputs.reclamForaValor, mesesPrescritosF, inputs.reclamForaValor, 'Art. 457, CLT; art. 7º, XXIX, CF/88');
+      }
       const reflexo13 = principal / 12;
       const reflexoFerias = (principal / 12) * (4 / 3);
       const reflexoAv = reflexoAviso(inputs.reclamForaValor);
@@ -2516,8 +3081,13 @@
     // 10) Diferenças salariais (equiparação, desvio, reajuste CCT) — natureza salarial, com reflexos
     if (inputs.reclamDifSalTipo && inputs.reclamDifSalTipo !== 'nenhuma'
         && inputs.reclamDifSalMeses > 0 && inputs.reclamDifSalValor > 0) {
-      const meses = Math.min(60, inputs.reclamDifSalMeses);
+      const mesesSolicitadosDS = Math.min(60, inputs.reclamDifSalMeses);
+      const meses = limitarMesesPorPrescricao(inputs.reclamDifSalMeses);
+      const mesesPrescritosDS = mesesSolicitadosDS - meses;
       const principal = meses * inputs.reclamDifSalValor;
+      if (mesesPrescritosDS > 0) {
+        registrarPrescritoQuinquenal('Diferenças salariais (período prescrito)', mesesPrescritosDS * inputs.reclamDifSalValor, mesesPrescritosDS, inputs.reclamDifSalValor, 'Art. 7º, XXIX, CF/88');
+      }
       const reflexo13 = principal / 12;
       const reflexoFerias = (principal / 12) * (4 / 3);
       const reflexoAv = reflexoAviso(inputs.reclamDifSalValor);
@@ -2547,12 +3117,17 @@
     const pctHonorarios = Math.min(15, Math.max(0, inputs.reclamHonorariosPct || 0));
     const honorarios = totalPleitos * (pctHonorarios / 100);
 
+    // Total dos pleitos PRESCRITOS (somente quinquenal — bienal é tratada em outro nível)
+    const totalPrescritoQuinquenal = pleitosPrescritos.reduce((acc, p) => acc + p.valor, 0);
+
     return {
       pleitos,
       totalPleitos,
       pctHonorarios,
       honorarios,
-      totalGeral: totalPleitos + honorarios
+      totalGeral: totalPleitos + honorarios,
+      pleitosPrescritos,
+      totalPrescritoQuinquenal
     };
   }
 
@@ -2605,21 +3180,11 @@
       valorPericulosidade = salario * (inputs.periculo / 100);
     }
 
-    // Não acumula com insalubridade — empregado tem direito ao mais vantajoso
+    // Não acumula (art. 193, §2º, CLT) — a UI agora bloqueia escolha simultânea
     let adicionalRisco = 0;
     let adicionalRiscoLabel = '';
     let adicionalRiscoFundamento = '';
-    if (valorInsalubridade > 0 && valorPericulosidade > 0) {
-      if (valorPericulosidade >= valorInsalubridade) {
-        adicionalRisco = valorPericulosidade;
-        adicionalRiscoLabel = `Periculosidade (30%) — opção mais vantajosa que insalubridade (${formatCurrency(valorInsalubridade)})`;
-        adicionalRiscoFundamento = 'Art. 193, §2º, CLT — vedada cumulação; Súm. 191, TST';
-      } else {
-        adicionalRisco = valorInsalubridade;
-        adicionalRiscoLabel = `Insalubridade (${inputs.insalubGrau}%) sobre ${baseInsalubLabel} — opção mais vantajosa que periculosidade (${formatCurrency(valorPericulosidade)})`;
-        adicionalRiscoFundamento = 'Art. 193, §2º, CLT — vedada cumulação';
-      }
-    } else if (valorPericulosidade > 0) {
+    if (valorPericulosidade > 0) {
       adicionalRisco = valorPericulosidade;
       adicionalRiscoLabel = `Periculosidade (30%) sobre salário-base`;
       adicionalRiscoFundamento = 'Art. 193, CLT; Súm. 191, TST';
@@ -2677,6 +3242,10 @@
     const m = MODALIDADES[inputs.modalidade];
     if (!m) return null;
 
+    // FLAG bienal — não bloqueia mais o cálculo, apenas sinaliza para a renderização
+    // que TODAS as verbas/pleitos serão classificados como prescritos (art. 7º, XXIX, CF/88)
+    const bienalPrescrita = !!(derivados.prescricao && derivados.prescricao.bienalPrescrita);
+
     // BASE RESCISÓRIA = salário-base + adicionais permanentes + médias variáveis
     // (Súm. 60, 132, 191, 347 e 459, TST; art. 457, CLT)
     const salario = derivados.remuneracao ? derivados.remuneracao.remuneracaoTotal : inputs.salarioBase;
@@ -2715,6 +3284,7 @@
     }
 
     const verbas = [];
+    const verbasPrescritasRescisao = []; // registra férias vencidas prescritas + FGTS além do cap
     let totalCredor = 0; // verbas a favor do empregado
     let totalDevedor = 0; // verbas a favor do empregador (art. 480)
 
@@ -2802,17 +3372,37 @@
 
     // 4) FÉRIAS VENCIDAS + 1/3 — iteração período a período (art. 137 CLT, Súm. 81 TST)
     if (m.feriasVencidas === 'integral' && inputs.temFeriasVencidas === 'sim') {
-      const periodosAnalise = analisarPeriodosVencidos(inputs.dataAdmissao, inputs.dataSaida);
+      const periodosAnalise = analisarPeriodosVencidos(inputs.dataAdmissao, inputs.dataSaida, inputs.dataReferencia);
 
       // Acumula saldos simples e dobrados percorrendo cada período individualmente
       let saldoSimplesDias = 0;
       let saldoDobradosDias = 0;
+      let periodosPrescritos = 0;
       const detalhesSimples = [];
       const detalhesDobrados = [];
+
+      let valorPrescritoSimples = 0;
+      let valorPrescritoDobrados = 0;
+      let diasPrescritosSimples = 0;
+      let diasPrescritosDobrados = 0;
 
       periodosAnalise.forEach((p, idx) => {
         const gozados = Math.min(30, Math.max(0, (inputs.diasGozadosPorPeriodo || [])[idx] || 0));
         const saldo = 30 - gozados;
+        // Períodos prescritos (art. 149, CLT) — registra valor que seria devido, mas não entra no total
+        if (p.prescrito) {
+          periodosPrescritos++;
+          if (saldo > 0) {
+            if (p.dobrado) {
+              valorPrescritoDobrados += (salarioDia * saldo * 2) * (4 / 3); // saldo × salário-dia × 2 + 1/3
+              diasPrescritosDobrados += saldo;
+            } else {
+              valorPrescritoSimples += (salarioDia * saldo) * (4 / 3);
+              diasPrescritosSimples += saldo;
+            }
+          }
+          return;
+        }
         if (saldo <= 0) return; // integralmente gozado
         if (p.dobrado) {
           saldoDobradosDias += saldo;
@@ -2822,6 +3412,35 @@
           detalhesSimples.push(`${p.ordem}º (${saldo} dia${saldo > 1 ? 's' : ''})`);
         }
       });
+
+      // Registra verbas prescritas das férias (apenas para informação ao cliente)
+      if (valorPrescritoSimples > 0) {
+        verbasPrescritasRescisao.push({
+          nome: 'Férias vencidas simples (períodos prescritos)',
+          valor: valorPrescritoSimples,
+          detalhe: `${diasPrescritosSimples} dia(s) em períodos com prescrição quinquenal consumada × ${formatCurrency(salarioDia)} + 1/3.`,
+          fundamento: 'Art. 149, CLT; art. 7º, XXIX, CF/88'
+        });
+      }
+      if (valorPrescritoDobrados > 0) {
+        verbasPrescritasRescisao.push({
+          nome: 'Férias vencidas em DOBRO (períodos prescritos)',
+          valor: valorPrescritoDobrados,
+          detalhe: `${diasPrescritosDobrados} dia(s) em períodos dobrados com prescrição quinquenal consumada × ${formatCurrency(salarioDia)} × 2 + 1/3.`,
+          fundamento: 'Art. 137 e 149, CLT; Súm. 81, TST; art. 7º, XXIX, CF/88'
+        });
+      }
+
+      // Card informativo dos períodos prescritos (somente se houver)
+      if (periodosPrescritos > 0) {
+        verbas.push({
+          nome: `Férias vencidas prescritas (${periodosPrescritos} período${periodosPrescritos > 1 ? 's' : ''})`,
+          valor: 0,
+          detalhe: `${periodosPrescritos} período(s) aquisitivo(s) com prescrição quinquenal consumada (5 anos do fim do concessivo). Valor não pleiteável discriminado no bloco de valores excluídos pela prescrição.`,
+          fundamento: 'Art. 149, CLT; art. 7º, XXIX, CF/88',
+          informativa: true
+        });
+      }
 
       // Verba 1: Férias vencidas SIMPLES
       if (saldoSimplesDias > 0) {
@@ -2921,8 +3540,16 @@
 
     // 6.2) Estimativa do FGTS histórico (sem variações salariais, juros e correção)
     const mesesContrato = (derivados.tempo.anos * 12) + derivados.tempo.meses + (derivados.tempo.dias >= 15 ? 1 : 0);
-    const fgtsHistoricoEstimado = salario * 0.08 * mesesContrato;
-    const fgtsDevidoTotal = fgtsHistoricoEstimado + verbasFgts;
+    // Prescrição quinquenal do FGTS NÃO recolhido (STF ARE 709.212, Tema 608; Súm. 362, TST reformulada em 2016):
+    //   - O crédito de "depósito não realizado" prescreve em 5 anos → cap aplicado APENAS no FGTS faltante (a regularizar)
+    //   - A MULTA de 40% (art. 18, §1º, Lei 8.036/90) incide sobre o saldo total devido (instituto da rescisão, não sofre o cap dos depósitos antigos)
+    const mesesContratoComCap = derivados.prescricao
+      ? Math.min(mesesContrato, derivados.prescricao.mesesMaxRetroativos)
+      : mesesContrato;
+    const fgtsHistoricoEstimadoTotal = salario * 0.08 * mesesContrato;      // base da multa
+    const fgtsHistoricoComCap = salario * 0.08 * mesesContratoComCap;       // base do FGTS faltante (com cap)
+    const fgtsDevidoTotal = fgtsHistoricoEstimadoTotal + verbasFgts;        // base da multa = saldo total devido
+    const fgtsDevidoComCap = fgtsHistoricoComCap + verbasFgts;              // base para FGTS faltante (com cap quinquenal)
 
     // 6.3) Lança o FGTS rescisório (sempre devido — depósito na conta vinculada)
     verbas.push({
@@ -2934,15 +3561,28 @@
     });
     totalCredor += verbasFgts;
 
-    // 6.4) Se irregular, lança o FGTS não depositado durante o contrato
+    // 6.4) Se irregular, lança o FGTS não depositado durante o contrato (com cap quinquenal — Tema 608, STF)
     if (inputs.fgtsStatus === 'irregular') {
-      const fgtsFaltante = Math.max(0, fgtsDevidoTotal - inputs.saldoFgtsDepositado);
+      // Registra a parcela do FGTS prescrita (depósitos não realizados há mais de 5 anos)
+      const fgtsPrescritoQuinquenal = fgtsHistoricoEstimadoTotal - fgtsHistoricoComCap;
+      if (fgtsPrescritoQuinquenal > 0) {
+        verbasPrescritasRescisao.push({
+          nome: 'FGTS não depositado (período prescrito)',
+          valor: fgtsPrescritoQuinquenal,
+          detalhe: `Depósitos do FGTS não realizados há mais de 5 anos da data de referência. ${mesesContrato - mesesContratoComCap} mês(es) prescritos × ${formatCurrency(salario * 0.08)}/mês.`,
+          fundamento: 'STF ARE 709.212 (Tema 608); Súm. 362, TST reformulada; art. 7º, XXIX, CF/88'
+        });
+      }
+      const fgtsFaltante = Math.max(0, fgtsDevidoComCap - inputs.saldoFgtsDepositado);
       if (fgtsFaltante > 0) {
+        const obsCap = (mesesContratoComCap < mesesContrato)
+          ? ` Limitado aos últimos ${mesesContratoComCap} meses (prescrição quinquenal — Tema 608, STF; Súm. 362, TST).`
+          : '';
         verbas.push({
           nome: 'FGTS não depositado (regularização)',
           valor: fgtsFaltante,
-          detalhe: `Devido estimado (${formatCurrency(fgtsDevidoTotal)}) − efetivamente depositado (${formatCurrency(inputs.saldoFgtsDepositado)}). Depósito direto na conta vinculada, vedado pagamento em dinheiro.`,
-          fundamento: 'Art. 15 e 26, Lei 8.036/90; Súm. 461, TST; art. 642-A, CLT',
+          detalhe: `Devido nos últimos 5 anos (${formatCurrency(fgtsDevidoComCap)}) − efetivamente depositado (${formatCurrency(inputs.saldoFgtsDepositado)}).${obsCap} Depósito direto na conta vinculada, vedado pagamento em dinheiro.`,
+          fundamento: 'Art. 15 e 26, Lei 8.036/90; Súm. 461 e 362, TST; STF ARE 709.212 (Tema 608); art. 642-A, CLT',
           deposito: true
         });
         totalCredor += fgtsFaltante;
@@ -3080,16 +3720,19 @@
       fgtsDevidoTotal,
       direitos,
       seguroDesemprego,
-      descontos
+      descontos,
+      prescritoBienal: bienalPrescrita,
+      verbasPrescritasRescisao
     };
 
-    // Simulação trabalhista (Fase 5)
+    // Simulação trabalhista (Fase 5) com cap da prescrição quinquenal
     const simulacao = calcularSimulacaoTrabalhista(
       inputs,
       resultadoBase,
       derivados.remuneracao,
       diasAvisoFinal,
-      seguroDesemprego
+      seguroDesemprego,
+      derivados.prescricao
     );
     resultadoBase.simulacao = simulacao;
 
@@ -3111,6 +3754,7 @@
     const salarioHora = inputs.salarioBase / divisorMensal;
 
     const remuneracao = calcularRemuneracaoRescisoria(inputs);
+    const prescricao = analisarPrescricao(inputs.dataSaida, inputs.dataReferencia);
 
     const derivados = {
       tempo,
@@ -3120,7 +3764,8 @@
       salarioDia,
       salarioHora,
       divisorMensal,
-      remuneracao
+      remuneracao,
+      prescricao
     };
 
     // Cálculo das verbas só quando há dados mínimos
@@ -3281,6 +3926,24 @@
 
     container.style.display = 'block';
 
+    // Aviso topo de prescrição bienal (não bloqueia mais — mostra como prescrito no final)
+    let avisoBienalHtml = '';
+    if (v.prescritoBienal) {
+      avisoBienalHtml = `
+        <div class="result-card" style="border-left-color: var(--danger); background: rgba(178, 34, 34, 0.05);">
+          <div class="result-row">
+            <span class="result-label" style="color: var(--danger);">PRESCRIÇÃO BIENAL CONFIGURADA</span>
+            <span class="badge" style="background: var(--danger); color: white;">Atenção</span>
+          </div>
+          <div class="result-detail" style="margin-top: 8px;">
+            Decorridos mais de 2 anos entre a data do término do contrato e a data de referência. Nos termos do <strong>art. 7º, XXIX, da CF/88</strong>, todas as verbas e pleitos listados abaixo estão prescritos e não podem ser executados em juízo.
+            <br><br>
+            Os valores aparecem apenas para fins de <strong>orientação ao cliente</strong> sobre o que seria devido se a ação fosse proposta a tempo. <strong>Ajuste a Data de Referência</strong> se houve ajuizamento dentro do biênio.
+          </div>
+        </div>
+      `;
+    }
+
     // Cabeçalho da modalidade
     let modalidadeHTML = `
       <div class="result-card">
@@ -3337,7 +4000,7 @@
       }
     });
 
-    let html = modalidadeHTML;
+    let html = avisoBienalHtml + modalidadeHTML;
     if (blocoDinheiro) {
       html += `
         <div class="section-title" style="margin-top: 18px;">
@@ -3496,13 +4159,23 @@
           </div>
         `;
       });
+      const prescr = inputs.dataReferencia ? '' : ' (data de referência: hoje)';
+      const capInfo = (function() {
+        if (!inputs.dataSaida) return '';
+        const refStr = inputs.dataReferencia || (new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0') + '-' + String(new Date().getDate()).padStart(2, '0'));
+        const limite = new Date(refStr + 'T00:00:00');
+        limite.setFullYear(limite.getFullYear() - 5);
+        const dia = String(limite.getDate()).padStart(2, '0');
+        const mes = String(limite.getMonth() + 1).padStart(2, '0');
+        return `<br><strong>Limite quinquenal aplicado:</strong> só são pleiteáveis fatos a partir de ${dia}/${mes}/${limite.getFullYear()} (5 anos retroativos da data de referência${prescr}). Os meses retroativos lançados foram limitados automaticamente quando excederam esse marco.`;
+      })();
       html += `
         <div class="section-title" style="margin-top: 18px;">
           Pleitos de Ação Trabalhista
           <span class="section-tag">Bloco 4 · Fase 5</span>
         </div>
         <div class="info-box" style="margin-bottom: 12px; background: rgba(212, 160, 23, 0.10); border-left-color: var(--warning);">
-          <strong>Estimativa para fins de captação e dimensionamento.</strong> Valores sujeitos a prova documental, depoimento testemunhal e atualização monetária (a ser calculada na Fase 6). Prescrição: 5 anos retroativos (art. 7º, XXIX, CF/88) e 2 anos do término para ajuizar.
+          <strong>Estimativa para fins de captação e dimensionamento.</strong> Valores sujeitos a prova documental, depoimento testemunhal e atualização monetária (Fase 6). Prescrição: 5 anos retroativos (art. 7º, XXIX, CF/88) e 2 anos do término para ajuizar.${capInfo}
         </div>
         ${pleitosHtml}
         <div class="result-card" style="border-left-color: var(--warning); background: rgba(212, 160, 23, 0.05);">
@@ -3520,6 +4193,92 @@
           </div>
           ${renderAtualizacaoCausa(s.totalGeral, inputs)}
           <div class="result-detail" style="margin-top: 6px;">Art. 791-A, CLT — sucumbência fixada entre 5% e 15% sobre o valor da condenação ou do proveito econômico.</div>
+        </div>
+      `;
+    }
+
+    // Bloco final — Valores excluídos pela prescrição (bienal e quinquenal)
+    const verbasPrescritasResc = v.verbasPrescritasRescisao || [];
+    const pleitosPrescritosFase5 = (v.simulacao && v.simulacao.pleitosPrescritos) || [];
+    let prescritosHtml = '';
+    let totalPrescrito = 0;
+
+    // Se bienal prescrita, todas as verbas e pleitos são listados aqui também
+    if (v.prescritoBienal) {
+      // Verbas em dinheiro (TRCT) + depósitos FGTS são prescritos pela bienal
+      v.verbas.forEach(item => {
+        if (item.informativa || item.debito) return;
+        prescritosHtml += `
+          <div class="result-card" style="border-left-color: var(--danger); background: rgba(178,34,34,0.04);">
+            <div class="result-row">
+              <span class="result-label">${item.nome} <span class="badge" style="background: rgba(178,34,34,0.15); color: var(--danger); margin-left: 6px;">Bienal</span></span>
+              <span class="result-value">${formatCurrency(item.valor)}</span>
+            </div>
+            <div class="result-detail">${item.detalhe}<br><em style="font-size: 10px; color: var(--text-muted);">${item.fundamento} · Prescrito pelo art. 7º, XXIX, CF/88 (bienal).</em></div>
+          </div>
+        `;
+        totalPrescrito += item.valor;
+      });
+      // Pleitos da Fase 5 também
+      if (v.simulacao && v.simulacao.pleitos) {
+        v.simulacao.pleitos.forEach(p => {
+          if (p.informativa) return;
+          prescritosHtml += `
+            <div class="result-card" style="border-left-color: var(--danger); background: rgba(178,34,34,0.04);">
+              <div class="result-row">
+                <span class="result-label">${p.nome} <span class="badge" style="background: rgba(178,34,34,0.15); color: var(--danger); margin-left: 6px;">Bienal</span></span>
+                <span class="result-value">${formatCurrency(p.valor)}</span>
+              </div>
+              <div class="result-detail">${p.detalhe}<br><em style="font-size: 10px; color: var(--text-muted);">${p.fundamento}</em></div>
+            </div>
+          `;
+          totalPrescrito += p.valor;
+        });
+      }
+    }
+
+    // Verbas e pleitos prescritos pela QUINQUENAL (somente cap aplicado)
+    verbasPrescritasResc.forEach(item => {
+      prescritosHtml += `
+        <div class="result-card" style="border-left-color: var(--warning); background: rgba(212,160,23,0.04);">
+          <div class="result-row">
+            <span class="result-label">${item.nome} <span class="badge" style="background: rgba(212,160,23,0.18); color: var(--warning); margin-left: 6px;">Quinquenal</span></span>
+            <span class="result-value">${formatCurrency(item.valor)}</span>
+          </div>
+          <div class="result-detail">${item.detalhe}<br><em style="font-size: 10px; color: var(--text-muted);">${item.fundamento}</em></div>
+        </div>
+      `;
+      totalPrescrito += item.valor;
+    });
+    pleitosPrescritosFase5.forEach(item => {
+      prescritosHtml += `
+        <div class="result-card" style="border-left-color: var(--warning); background: rgba(212,160,23,0.04);">
+          <div class="result-row">
+            <span class="result-label">${item.nome} <span class="badge" style="background: rgba(212,160,23,0.18); color: var(--warning); margin-left: 6px;">Quinquenal</span></span>
+            <span class="result-value">${formatCurrency(item.valor)}</span>
+          </div>
+          <div class="result-detail">${item.detalhe}<br><em style="font-size: 10px; color: var(--text-muted);">${item.fundamento}</em></div>
+        </div>
+      `;
+      totalPrescrito += item.valor;
+    });
+
+    if (prescritosHtml) {
+      html += `
+        <div class="section-title" style="margin-top: 18px;">
+          Valores Excluídos pela Prescrição
+          <span class="section-tag">Discriminação</span>
+        </div>
+        <div class="info-box" style="margin-bottom: 12px; background: rgba(178,34,34,0.06); border-left-color: var(--danger);">
+          <strong>Apenas para fins de orientação ao cliente.</strong> Os valores listados abaixo correspondem ao que seria devido <strong>se</strong> a ação tivesse sido proposta dentro dos prazos prescricionais. <strong>Não podem ser pleiteados</strong> em juízo e <strong>não somam</strong> ao total da rescisão nem ao valor da causa.
+        </div>
+        ${prescritosHtml}
+        <div class="result-card" style="border-left-color: var(--danger); background: rgba(178,34,34,0.05);">
+          <div class="result-row">
+            <span class="result-label"><strong>TOTAL EXCLUÍDO PELA PRESCRIÇÃO</strong></span>
+            <span class="result-value large" style="color: var(--danger);">${formatCurrency(totalPrescrito)}</span>
+          </div>
+          <div class="result-detail" style="margin-top: 6px;">Valor que o cliente deixou de receber em razão do decurso dos prazos prescricionais (bienal e/ou quinquenal). Útil para orientação sobre a importância de procurar o escritório o quanto antes em casos semelhantes no futuro.</div>
         </div>
       `;
     }
@@ -3691,6 +4450,7 @@
     document.getElementById('data-admissao').value = c.dataAdmissao || '';
     document.getElementById('data-saida').value = c.dataSaida || '';
     document.getElementById('data-termino-previsto').value = c.dataTerminoPrevisto || '';
+    document.getElementById('data-referencia').value = c.dataReferencia || '';
     document.getElementById('salario-base').value = c.salarioBase ? formatNumber(c.salarioBase) : '';
     document.getElementById('jornada-semanal').value = c.jornadaSemanal || 44;
     document.getElementById('modalidade').value = c.modalidade || 'sem-justa-causa';
@@ -3727,17 +4487,19 @@
     document.getElementById('reclam-adicional-valor').value = c.reclamAdicionalValor ? formatNumber(c.reclamAdicionalValor) : '';
     document.getElementById('reclam-dano-moral').value = c.reclamDanoMoral ? formatNumber(c.reclamDanoMoral) : '';
     document.getElementById('reclam-estabilidade-meses').value = c.reclamEstabilidadeMeses || 0;
-    document.getElementById('reclam-intra-pre-meses').value = c.reclamIntraPreMeses || 0;
-    document.getElementById('reclam-intra-pre-valor').value = c.reclamIntraPreValor ? formatNumber(c.reclamIntraPreValor) : '';
+    document.getElementById('reclam-intra-pos-modo').value = c.reclamIntraPosModo || 'mensal';
     document.getElementById('reclam-intra-pos-meses').value = c.reclamIntraPosMeses || 0;
     document.getElementById('reclam-intra-pos-valor').value = c.reclamIntraPosValor ? formatNumber(c.reclamIntraPosValor) : '';
+    document.getElementById('reclam-inter-modo').value = c.reclamInterModo || 'mensal';
     document.getElementById('reclam-inter-meses').value = c.reclamInterMeses || 0;
     document.getElementById('reclam-inter-valor').value = c.reclamInterValor ? formatNumber(c.reclamInterValor) : '';
     document.getElementById('reclam-difsal-tipo').value = c.reclamDifSalTipo || 'nenhuma';
     document.getElementById('reclam-difsal-meses').value = c.reclamDifSalMeses || 0;
     document.getElementById('reclam-difsal-valor').value = c.reclamDifSalValor ? formatNumber(c.reclamDifSalValor) : '';
+    document.getElementById('reclam-vt-modo').value = c.reclamVtModo || 'mensal';
     document.getElementById('reclam-vt-meses').value = c.reclamVtMeses || 0;
     document.getElementById('reclam-vt-valor').value = c.reclamVtValor ? formatNumber(c.reclamVtValor) : '';
+    document.getElementById('reclam-va-modo').value = c.reclamVaModo || 'mensal';
     document.getElementById('reclam-va-meses').value = c.reclamVaMeses || 0;
     document.getElementById('reclam-va-valor').value = c.reclamVaValor ? formatNumber(c.reclamVaValor) : '';
     document.getElementById('reclam-fora-meses').value = c.reclamForaMeses || 0;
@@ -3758,6 +4520,7 @@
     document.getElementById('seg-des-recebeu-antes').dispatchEvent(new Event('change'));
     document.getElementById('insalub-base').dispatchEvent(new Event('change'));
     document.getElementById('atualiz-aplicar').dispatchEvent(new Event('change'));
+    inicializarTodosModosPleito();
     renderListaPeriodos();
     calcular();
     showToast('Caso carregado.');
@@ -3817,6 +4580,7 @@
       document.getElementById('data-admissao').value = c.dataAdmissao || '';
       document.getElementById('data-saida').value = c.dataSaida || '';
       document.getElementById('data-termino-previsto').value = c.dataTerminoPrevisto || '';
+      document.getElementById('data-referencia').value = c.dataReferencia || '';
       document.getElementById('salario-base').value = c.salarioBase ? formatNumber(c.salarioBase) : '';
       document.getElementById('jornada-semanal').value = c.jornadaSemanal || 44;
       document.getElementById('modalidade').value = c.modalidade || 'sem-justa-causa';
@@ -3853,17 +4617,19 @@
       document.getElementById('reclam-adicional-valor').value = c.reclamAdicionalValor ? formatNumber(c.reclamAdicionalValor) : '';
       document.getElementById('reclam-dano-moral').value = c.reclamDanoMoral ? formatNumber(c.reclamDanoMoral) : '';
       document.getElementById('reclam-estabilidade-meses').value = c.reclamEstabilidadeMeses || 0;
-      document.getElementById('reclam-intra-pre-meses').value = c.reclamIntraPreMeses || 0;
-      document.getElementById('reclam-intra-pre-valor').value = c.reclamIntraPreValor ? formatNumber(c.reclamIntraPreValor) : '';
+      document.getElementById('reclam-intra-pos-modo').value = c.reclamIntraPosModo || 'mensal';
       document.getElementById('reclam-intra-pos-meses').value = c.reclamIntraPosMeses || 0;
       document.getElementById('reclam-intra-pos-valor').value = c.reclamIntraPosValor ? formatNumber(c.reclamIntraPosValor) : '';
+      document.getElementById('reclam-inter-modo').value = c.reclamInterModo || 'mensal';
       document.getElementById('reclam-inter-meses').value = c.reclamInterMeses || 0;
       document.getElementById('reclam-inter-valor').value = c.reclamInterValor ? formatNumber(c.reclamInterValor) : '';
       document.getElementById('reclam-difsal-tipo').value = c.reclamDifSalTipo || 'nenhuma';
       document.getElementById('reclam-difsal-meses').value = c.reclamDifSalMeses || 0;
       document.getElementById('reclam-difsal-valor').value = c.reclamDifSalValor ? formatNumber(c.reclamDifSalValor) : '';
+      document.getElementById('reclam-vt-modo').value = c.reclamVtModo || 'mensal';
       document.getElementById('reclam-vt-meses').value = c.reclamVtMeses || 0;
       document.getElementById('reclam-vt-valor').value = c.reclamVtValor ? formatNumber(c.reclamVtValor) : '';
+      document.getElementById('reclam-va-modo').value = c.reclamVaModo || 'mensal';
       document.getElementById('reclam-va-meses').value = c.reclamVaMeses || 0;
       document.getElementById('reclam-va-valor').value = c.reclamVaValor ? formatNumber(c.reclamVaValor) : '';
       document.getElementById('reclam-fora-meses').value = c.reclamForaMeses || 0;
@@ -3922,9 +4688,12 @@
     document.getElementById('reclam-he-meses').value = '0';
     document.getElementById('reclam-adicional-meses').value = '0';
     document.getElementById('reclam-estabilidade-meses').value = '0';
-    document.getElementById('reclam-intra-pre-meses').value = '0';
+    document.getElementById('reclam-intra-pos-modo').value = 'mensal';
     document.getElementById('reclam-intra-pos-meses').value = '0';
+    document.getElementById('reclam-inter-modo').value = 'mensal';
     document.getElementById('reclam-inter-meses').value = '0';
+    document.getElementById('reclam-vt-modo').value = 'mensal';
+    document.getElementById('reclam-va-modo').value = 'mensal';
     document.getElementById('reclam-difsal-tipo').value = 'nenhuma';
     document.getElementById('reclam-difsal-meses').value = '0';
     document.getElementById('reclam-vt-meses').value = '0';
@@ -3964,10 +4733,10 @@
     if (!dados) return;
     const html = montarResumoExecutivo(dados.inputs, dados.r);
     document.getElementById('print-content').innerHTML = html;
-    document.body.classList.add('print-mode');
+    document.body.classList.add('print-mode', 'print-resumo');
     setTimeout(() => {
       window.print();
-      setTimeout(() => document.body.classList.remove('print-mode'), 500);
+      setTimeout(() => document.body.classList.remove('print-mode', 'print-resumo'), 500);
     }, 100);
   }
 
@@ -3976,10 +4745,10 @@
     if (!dados) return;
     const html = montarMemorialDetalhado(dados.inputs, dados.r);
     document.getElementById('print-content').innerHTML = html;
-    document.body.classList.add('print-mode');
+    document.body.classList.add('print-mode', 'print-memorial');
     setTimeout(() => {
       window.print();
-      setTimeout(() => document.body.classList.remove('print-mode'), 500);
+      setTimeout(() => document.body.classList.remove('print-mode', 'print-memorial'), 500);
     }, 100);
   }
 
@@ -3987,6 +4756,132 @@
     const d = new Date();
     const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
     return `${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+  }
+
+  /* ---------- Função utilitária: gera barra horizontal SVG empilhada ---------- */
+  function gerarBarraComposicao(itens) {
+    // itens: [{ nome, valor, cor }] — soma os valores e gera barra proporcional
+    const total = itens.reduce((acc, i) => acc + i.valor, 0);
+    if (total <= 0) return '';
+    const altura = 32;
+    const largura = 600;
+    let x = 0;
+    let segmentos = '';
+    let legenda = '';
+    itens.forEach((item, idx) => {
+      const w = (item.valor / total) * largura;
+      segmentos += `<rect x="${x}" y="0" width="${w}" height="${altura}" fill="${item.cor}"></rect>`;
+      const pct = ((item.valor / total) * 100).toFixed(1);
+      legenda += `
+        <span style="display: inline-flex; align-items: center; gap: 6px; margin-right: 14px; font-size: 9pt;">
+          <span style="display: inline-block; width: 11px; height: 11px; background: ${item.cor}; border-radius: 2px;"></span>
+          <strong>${item.nome}</strong> ${formatCurrency(item.valor)} (${pct}%)
+        </span>
+      `;
+      x += w;
+    });
+    return `
+      <div style="margin: 8px 0;">
+        <svg width="100%" viewBox="0 0 ${largura} ${altura}" style="border-radius: 4px;">
+          ${segmentos}
+        </svg>
+        <div style="margin-top: 8px; line-height: 1.7;">${legenda}</div>
+      </div>
+    `;
+  }
+
+  /* ---------- Gráfico de pizza SVG inline ---------- */
+  function gerarGraficoPizza(itens) {
+    const total = itens.reduce((acc, i) => acc + i.valor, 0);
+    if (total <= 0) return '';
+    const cx = 90, cy = 90, raio = 80;
+    let acumulado = -Math.PI / 2; // começa no topo
+    let fatias = '';
+    let legenda = '';
+    itens.forEach(item => {
+      const fracao = item.valor / total;
+      const ang = fracao * Math.PI * 2;
+      const fimAng = acumulado + ang;
+      const x1 = cx + raio * Math.cos(acumulado);
+      const y1 = cy + raio * Math.sin(acumulado);
+      const x2 = cx + raio * Math.cos(fimAng);
+      const y2 = cy + raio * Math.sin(fimAng);
+      const largeArc = fracao > 0.5 ? 1 : 0;
+      // Quando há só uma fatia (100%), usa círculo completo
+      if (itens.length === 1) {
+        fatias += `<circle cx="${cx}" cy="${cy}" r="${raio}" fill="${item.cor}" stroke="white" stroke-width="2"/>`;
+      } else {
+        fatias += `<path d="M ${cx} ${cy} L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${raio} ${raio} 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${item.cor}" stroke="white" stroke-width="2"/>`;
+      }
+      const pct = (fracao * 100).toFixed(1);
+      legenda += `
+        <div class="item">
+          <span class="swatch" style="background: ${item.cor};"></span>
+          <span style="flex: 1;"><strong>${item.nome}</strong></span>
+          <span>${formatCurrency(item.valor)} <em style="color: #666;">(${pct}%)</em></span>
+        </div>
+      `;
+      acumulado = fimAng;
+    });
+    return `
+      <div class="print-pizza-wrapper">
+        <div class="print-pizza-svg">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            ${fatias}
+          </svg>
+        </div>
+        <div class="print-pizza-legenda">${legenda}</div>
+      </div>
+    `;
+  }
+
+  /* ---------- Linha do tempo SVG inline ---------- */
+  function gerarLinhaDoTempo(eventos) {
+    // eventos: [{ data: 'YYYY-MM-DD', label, cor, descricao }]
+    const validos = eventos.filter(e => e.data);
+    if (validos.length < 2) return '';
+    const datas = validos.map(e => new Date(e.data + 'T00:00:00').getTime());
+    const minData = Math.min(...datas);
+    const maxData = Math.max(...datas);
+    const range = maxData - minData;
+    if (range === 0) return '';
+
+    const largura = 720;
+    const margemX = 30;
+    const baselineY = 60;
+    const altura = 130;
+    const utilLargura = largura - margemX * 2;
+
+    let linhaBase = `<line x1="${margemX}" y1="${baselineY}" x2="${largura - margemX}" y2="${baselineY}" stroke="#888" stroke-width="2"/>`;
+    let pontos = '';
+    let labels = '';
+    let legenda = '';
+
+    validos.forEach((ev, idx) => {
+      const t = new Date(ev.data + 'T00:00:00').getTime();
+      const x = margemX + ((t - minData) / range) * utilLargura;
+      const acima = (idx % 2 === 0);
+      const yLabel = acima ? baselineY - 12 : baselineY + 22;
+      const anchorY = acima ? baselineY - 4 : baselineY + 4;
+      pontos += `<circle cx="${x.toFixed(1)}" cy="${baselineY}" r="6" fill="${ev.cor}" stroke="white" stroke-width="2"/>`;
+      labels += `<line x1="${x.toFixed(1)}" y1="${baselineY}" x2="${x.toFixed(1)}" y2="${anchorY}" stroke="${ev.cor}" stroke-width="1"/>`;
+      labels += `<text x="${x.toFixed(1)}" y="${yLabel}" text-anchor="middle" font-size="8.5" fill="${ev.cor}" font-weight="600">${formatDateBR(ev.data)}</text>`;
+      legenda += `
+        <div class="item">
+          <span style="display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: ${ev.cor};"></span>
+          <strong>${ev.label}:</strong>&nbsp;${formatDateBR(ev.data)}${ev.descricao ? ' · <em style="color:#666;">' + ev.descricao + '</em>' : ''}
+        </div>
+      `;
+    });
+
+    return `
+      <div class="print-timeline">
+        <svg viewBox="0 0 ${largura} ${altura}" preserveAspectRatio="xMidYMid meet">
+          ${linhaBase}${labels}${pontos}
+        </svg>
+        <div class="print-timeline-legenda">${legenda}</div>
+      </div>
+    `;
   }
 
   /* ---------- RESUMO EXECUTIVO (cliente/captação) ---------- */
@@ -4007,6 +4902,29 @@
     const totalDescontos = v && v.descontos ? v.descontos.total : 0;
     const liquido = totalDinheiro - totalDescontos;
     const desembolso = totalDinheiro + totalDeposito - (v ? v.totalDevedor : 0);
+    const valorSegDes = (v && v.seguroDesemprego && v.seguroDesemprego.habilitado) ? v.seguroDesemprego.valorTotal : 0;
+    const valorPleitos = (v && v.simulacao) ? v.simulacao.totalGeral : 0;
+
+    // Gráfico de composição: barra horizontal das verbas que o empregado receberá
+    const itensGrafico = [];
+    if (liquido > 0) itensGrafico.push({ nome: 'Rescisão líquida', valor: liquido, cor: '#0D2340' });
+    if (totalDeposito > 0) itensGrafico.push({ nome: 'FGTS + multa', valor: totalDeposito, cor: '#1a73e8' });
+    if (valorSegDes > 0) itensGrafico.push({ nome: 'Seguro-desemprego', valor: valorSegDes, cor: '#2d6a4f' });
+    if (valorPleitos > 0) itensGrafico.push({ nome: 'Pleitos trabalhistas', valor: valorPleitos, cor: '#d4a017' });
+    const totalReceber = liquido + totalDeposito + valorSegDes + valorPleitos;
+    const graficoHtml = itensGrafico.length > 1
+      ? `
+        <div class="print-section">
+          <h2>Visão Geral · Composição do Total a Receber</h2>
+          ${gerarBarraComposicao(itensGrafico)}
+          <div class="print-row total" style="margin-top: 10px;">
+            <span class="label">VALOR TOTAL ESTIMADO A RECEBER</span>
+            <span class="value">${formatCurrency(totalReceber)}</span>
+          </div>
+          <p style="font-size: 9pt; color: #666; margin-top: 8px;">Soma da rescisão líquida + FGTS (saque + multa) + seguro-desemprego + valor estimado da causa trabalhista.</p>
+        </div>
+      `
+      : '';
 
     // Atualização
     let blocoAtualizacaoResc = '';
@@ -4065,13 +4983,109 @@
       `;
     }
 
+    // Mini-cards estatísticos no topo
+    const tempoCurto = r.tempo ? `${r.tempo.anos}a ${r.tempo.meses}m` : '—';
+    const modalidadeCurta = v ? (v.modalidade.label.length > 22 ? v.modalidade.label.substring(0, 22) + '…' : v.modalidade.label) : '—';
+    const totalDesembolsoFinal = desembolso;
+
+    // Total da causa trabalhista (pleitos + honorários)
+    const valorCausa = (v && v.simulacao) ? v.simulacao.totalGeral : 0;
+
+    let statusPrescricao = 'Em prazo';
+    let statusCor = 'destaque';
+    if (v && v.prescritoBienal) { statusPrescricao = 'Bienal'; statusCor = 'aviso'; }
+
+    const miniCards = `
+      <div class="print-stat-cards">
+        <div class="print-stat">
+          <div class="print-stat-label">Tempo de Contrato</div>
+          <div class="print-stat-value">${tempoCurto}</div>
+        </div>
+        <div class="print-stat">
+          <div class="print-stat-label">Modalidade</div>
+          <div class="print-stat-value sm">${modalidadeCurta}</div>
+        </div>
+        <div class="print-stat">
+          <div class="print-stat-label">Total da Rescisão</div>
+          <div class="print-stat-value destaque">${formatCurrency(totalDesembolsoFinal)}</div>
+        </div>
+        <div class="print-stat">
+          <div class="print-stat-label">Status Prescricional</div>
+          <div class="print-stat-value sm ${statusCor === 'aviso' ? 'aviso' : ''}">${statusPrescricao}</div>
+        </div>
+      </div>
+    `;
+
+    // Gráfico de pizza: rescisão paga vs prescrita (somente se houver prescrição)
+    const totalPrescritoTotal = (function() {
+      let t = 0;
+      if (v && v.verbasPrescritasRescisao) v.verbasPrescritasRescisao.forEach(p => t += p.valor);
+      if (v && v.simulacao && v.simulacao.pleitosPrescritos) v.simulacao.pleitosPrescritos.forEach(p => t += p.valor);
+      if (v && v.prescritoBienal && v.verbas) {
+        v.verbas.forEach(it => { if (!it.informativa && !it.debito) t += it.valor; });
+        if (v.simulacao && v.simulacao.pleitos) {
+          v.simulacao.pleitos.forEach(p => { if (!p.informativa) t += p.valor; });
+        }
+      }
+      return t;
+    })();
+
+    const totalPagoEfetivo = desembolso + valorCausa;
+    const graficoPizzaHtml = totalPrescritoTotal > 0
+      ? `
+        <div class="print-section">
+          <h2>Pago × Prescrito · Comparativo</h2>
+          ${gerarGraficoPizza([
+            { nome: 'Valor pleitável (não prescrito)', valor: totalPagoEfetivo, cor: '#2d6a4f' },
+            { nome: 'Valor excluído pela prescrição', valor: totalPrescritoTotal, cor: '#b22222' }
+          ])}
+          <p style="font-size: 9pt; color: #666; margin-top: 10px;">Demonstra a importância de procurar o escritório dentro dos prazos prescricionais. O valor em vermelho representa quanto deixaria de ser recebido se a ação fosse proposta tardiamente.</p>
+        </div>
+      `
+      : '';
+
+    // Linha do tempo com marcos contratuais e prescricionais
+    const eventos = [];
+    if (inputs.dataAdmissao) eventos.push({ data: inputs.dataAdmissao, label: 'Admissão', cor: '#2d6a4f', descricao: 'Início do vínculo' });
+    if (inputs.dataSaida) eventos.push({ data: inputs.dataSaida, label: 'Saída', cor: '#0D2340', descricao: 'Término do contrato' });
+    if (r && r.prescricao && r.prescricao.dataLimiteQuinquenal) {
+      const dq = r.prescricao.dataLimiteQuinquenal;
+      const dqStr = dq.getFullYear() + '-' + String(dq.getMonth() + 1).padStart(2, '0') + '-' + String(dq.getDate()).padStart(2, '0');
+      eventos.push({ data: dqStr, label: 'Marco quinquenal', cor: '#d4a017', descricao: 'Fatos anteriores prescritos' });
+    }
+    if (r && r.prescricao && r.prescricao.limiteBienal) {
+      const lb = r.prescricao.limiteBienal;
+      const lbStr = lb.getFullYear() + '-' + String(lb.getMonth() + 1).padStart(2, '0') + '-' + String(lb.getDate()).padStart(2, '0');
+      eventos.push({ data: lbStr, label: 'Prescrição bienal', cor: '#b22222', descricao: 'Após este marco, nada pleiteável' });
+    }
+    if (r && r.prescricao && r.prescricao.dataReferencia) {
+      eventos.push({ data: r.prescricao.dataReferencia, label: 'Data de referência', cor: '#1a73e8', descricao: 'Presumido ajuizamento' });
+    }
+    const timelineHtml = eventos.length >= 2
+      ? `
+        <div class="print-section">
+          <h2>Linha do Tempo · Marcos do Contrato</h2>
+          ${gerarLinhaDoTempo(eventos)}
+        </div>
+      `
+      : '';
+
     return `
       <div class="print-doc">
         <div class="print-header">
-          <h1>Arrais Advogados</h1>
-          <div class="subtitle">Resumo Executivo · Rescisão Trabalhista</div>
-          <div class="case-id">Caso: ${escapeHtml(inputs.caseId) || '—'} · Emitido em ${dataExtenso()}</div>
+          <div class="print-header-row">
+            <img src="logo.png" alt="Arrais Advogados" class="print-logo" onerror="this.style.display='none'">
+            <div>
+              <h1>Arrais Advogados</h1>
+              <div class="subtitle">Resumo Executivo · Rescisão Trabalhista</div>
+              <div class="case-id">Caso: ${escapeHtml(inputs.caseId) || '—'} · Emitido em ${dataExtenso()}</div>
+            </div>
+          </div>
         </div>
+
+        ${miniCards}
+
+        ${timelineHtml}
 
         <div class="print-section">
           <h2>Identificação</h2>
@@ -4088,6 +5102,10 @@
             <div><div class="field-label">Modalidade</div>${v ? v.modalidade.label : '—'}</div>
           </div>
         </div>
+
+        ${graficoHtml}
+
+        ${graficoPizzaHtml}
 
         <div class="print-section">
           <h2>Rescisão</h2>
@@ -4106,8 +5124,10 @@
         ${blocoPleitos}
 
         <div class="print-footer">
-          Arrais Advogados · OAB MG, SP, RJ, PA · arraisadvogados.com.br<br>
-          Documento gerado em ${dataExtenso()} · Estimativa baseada nos dados informados pelo cliente.
+          <strong>Arrais Sociedade de Advogados</strong> · OAB/MG nº 19.391 · CNPJ 60.284.876/0001-39<br>
+          Rua Carlos Peixoto Filho, n.º 112, Salas 203, 204 e 209 · Ed. Otocy Vilela Eiras<br>
+          Centro · Ubá/MG · CEP 36500-097 · (32) 99844-6488 · contato@arraisadv.com.br<br>
+          <em style="font-size: 8.5pt;">Documento gerado em ${dataExtenso()} · Estimativa baseada nos dados informados pelo cliente.</em>
         </div>
       </div>
     `;
@@ -4120,7 +5140,48 @@
 
     const tempoTxt = r.tempo ? `${r.tempo.anos} ano(s), ${r.tempo.meses} mês(es) e ${r.tempo.dias} dia(s)` : '—';
 
-    // Renderiza cada verba com detalhe e fundamentação
+    // Renderiza cada verba como LINHA DE TABELA (memorial usa tabela tabular)
+    function linhaTabela(item) {
+      const sinal = item.debito ? '− ' : '';
+      const valor = item.informativa
+        ? '<em style="color:#666; font-size: 9pt;">Não devida</em>'
+        : `${sinal}${formatCurrency(item.valor)}`;
+      return `
+        <tr>
+          <td>
+            <strong>${item.nome}</strong>
+            <span class="fundamento">${item.fundamento}</span>
+          </td>
+          <td>${item.detalhe}</td>
+          <td>${valor}</td>
+        </tr>
+      `;
+    }
+    function montarTabela(itens, subtotalLabel, subtotalValor) {
+      if (!itens || itens.length === 0) return '';
+      let linhas = '';
+      itens.forEach(item => { linhas += linhaTabela(item); });
+      const subtotal = subtotalLabel
+        ? `<tr class="subtotal"><td colspan="2">${subtotalLabel}</td><td>${formatCurrency(subtotalValor)}</td></tr>`
+        : '';
+      return `
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th style="width: 32%;">Verba e Fundamentação</th>
+              <th style="width: 48%;">Base de Cálculo / Detalhamento</th>
+              <th style="width: 20%;">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${linhas}
+            ${subtotal}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // Mantém função antiga (para compatibilidade onde ainda usar cards)
     function cardVerba(item, classe) {
       const cls = classe || (item.deposito ? 'deposito' : (item.debito ? 'desconto' : ''));
       const sinal = item.debito ? '− ' : '';
@@ -4137,19 +5198,19 @@
       `;
     }
 
-    // Verbas em dinheiro
-    let dinheiroHtml = '';
-    let depositoHtml = '';
-    let descontosHtml = '';
-    let pleitosHtml = '';
+    // Coleta as verbas em arrays para uso na tabela
+    const itensDinheiro = [];
+    const itensDeposito = [];
+    const itensDescontos = [];
+    const itensPleitos = [];
     let totalDinheiro = 0, totalDeposito = 0;
 
     v.verbas.forEach(item => {
       if (item.deposito) {
-        depositoHtml += cardVerba(item, 'deposito');
+        itensDeposito.push(item);
         if (!item.informativa) totalDeposito += item.valor;
       } else {
-        dinheiroHtml += cardVerba(item);
+        itensDinheiro.push(item);
         if (!item.informativa && !item.debito) totalDinheiro += item.valor;
       }
     });
@@ -4158,46 +5219,44 @@
     if (v.descontos && v.descontos.total > 0) {
       const d = v.descontos;
       if (d.baseFolha > 0) {
-        descontosHtml += cardVerba({
+        itensDescontos.push({
           nome: 'INSS sobre folha (saldo + aviso trabalhado)',
           valor: d.inssFolha.valor,
           detalhe: `Base: ${formatCurrency(d.baseFolha)}. ${d.inssFolha.detalhe}`,
           fundamento: 'Lei 8.212/91, art. 28; EC 103/2019',
           debito: true
-        }, 'desconto');
-        descontosHtml += cardVerba({
+        });
+        itensDescontos.push({
           nome: 'IRRF sobre folha',
           valor: d.irrfFolha.valor,
           detalhe: `Base: ${formatCurrency(d.irrfFolha.baseCalc)}${d.irrfFolha.reducaoLabel ? '. ' + d.irrfFolha.reducaoLabel : ''}`,
           fundamento: 'Lei 7.713/88; Lei 15.087/2025',
           debito: true,
           informativa: d.irrfFolha.valor === 0
-        }, 'desconto');
+        });
       }
       if (d.base13 > 0) {
-        descontosHtml += cardVerba({
+        itensDescontos.push({
           nome: 'INSS sobre 13º proporcional',
           valor: d.inss13.valor,
           detalhe: `Cálculo separado. Base: ${formatCurrency(d.base13)}. ${d.inss13.detalhe}`,
           fundamento: 'Lei 8.212/91, art. 28',
           debito: true
-        }, 'desconto');
-        descontosHtml += cardVerba({
+        });
+        itensDescontos.push({
           nome: 'IRRF sobre 13º (tributação exclusiva)',
           valor: d.irrf13.valor,
           detalhe: `Base: ${formatCurrency(d.irrf13.baseCalc)}`,
           fundamento: 'RIR/2018, art. 700',
           debito: true,
           informativa: d.irrf13.valor === 0
-        }, 'desconto');
+        });
       }
     }
 
     // Pleitos
     if (v.simulacao && v.simulacao.pleitos.length > 0) {
-      v.simulacao.pleitos.forEach(p => {
-        pleitosHtml += cardVerba(p, 'pleito');
-      });
+      v.simulacao.pleitos.forEach(p => { itensPleitos.push(p); });
     }
 
     // Atualização
@@ -4279,9 +5338,14 @@
     return `
       <div class="print-doc">
         <div class="print-header">
-          <h1>Memorial de Cálculo</h1>
-          <div class="subtitle">Rescisão Trabalhista · Arrais Advogados</div>
-          <div class="case-id">Caso: ${escapeHtml(inputs.caseId) || '—'} · Emitido em ${dataExtenso()}</div>
+          <div class="print-header-row">
+            <img src="logo.png" alt="Arrais Advogados" class="print-logo" onerror="this.style.display='none'">
+            <div>
+              <h1>Memorial de Cálculo</h1>
+              <div class="subtitle">Rescisão Trabalhista · Arrais Advogados</div>
+              <div class="case-id">Caso: ${escapeHtml(inputs.caseId) || '—'} · Emitido em ${dataExtenso()}</div>
+            </div>
+          </div>
         </div>
 
         <div class="print-section">
@@ -4311,27 +5375,24 @@
 
         ${remHtml}
 
-        ${dinheiroHtml ? `
+        ${itensDinheiro.length > 0 ? `
           <div class="print-section">
             <h2>3. Verbas Rescisórias Pagas em Dinheiro (TRCT)</h2>
-            ${dinheiroHtml}
-            <div class="print-row total" style="margin-top: 10px;"><span class="label">SUBTOTAL EM DINHEIRO</span><span class="value">${formatCurrency(totalDinheiro)}</span></div>
+            ${montarTabela(itensDinheiro, 'SUBTOTAL EM DINHEIRO', totalDinheiro)}
           </div>
         ` : ''}
 
-        ${depositoHtml ? `
+        ${itensDeposito.length > 0 ? `
           <div class="print-section">
             <h2>4. Depósitos na Conta Vinculada do FGTS</h2>
-            ${depositoHtml}
-            <div class="print-row total"><span class="label">SUBTOTAL DOS DEPÓSITOS</span><span class="value">${formatCurrency(totalDeposito)}</span></div>
+            ${montarTabela(itensDeposito, 'SUBTOTAL DOS DEPÓSITOS', totalDeposito)}
           </div>
         ` : ''}
 
-        ${descontosHtml ? `
+        ${itensDescontos.length > 0 ? `
           <div class="print-section">
             <h2>5. Descontos Legais</h2>
-            ${descontosHtml}
-            <div class="print-row total"><span class="label">TOTAL DOS DESCONTOS</span><span class="value">${formatCurrency(v.descontos.total)}</span></div>
+            ${montarTabela(itensDescontos, 'TOTAL DOS DESCONTOS', v.descontos.total)}
           </div>
         ` : ''}
 
@@ -4348,14 +5409,13 @@
 
         ${segDesHtml}
 
-        ${pleitosHtml ? `
+        ${itensPleitos.length > 0 ? `
           <div class="print-section">
             <h2>7. Pleitos de Reclamação Trabalhista</h2>
             <div class="print-aviso">
               Estimativa para fins de dimensionamento da causa. Os valores dependem de prova documental, depoimento testemunhal e demais elementos a serem produzidos em juízo. Prescrição quinquenal (art. 7º, XXIX, CF/88) e bienal para ajuizamento.
             </div>
-            ${pleitosHtml}
-            <div class="print-row" style="margin-top: 10px;"><span class="label">Subtotal dos pleitos</span><span class="value">${formatCurrency(v.simulacao.totalPleitos)}</span></div>
+            ${montarTabela(itensPleitos, 'SUBTOTAL DOS PLEITOS', v.simulacao.totalPleitos)}
             <div class="print-row"><span class="label">+ Honorários sucumbenciais (${v.simulacao.pctHonorarios}%) — art. 791-A, CLT</span><span class="value">${formatCurrency(v.simulacao.honorarios)}</span></div>
             <div class="print-row total"><span class="label">VALOR HISTÓRICO DA CAUSA</span><span class="value">${formatCurrency(v.simulacao.totalGeral)}</span></div>
             ${atualizCausaHtml}
@@ -4364,7 +5424,9 @@
 
         <div class="print-footer">
           Memorial de cálculo emitido em ${dataExtenso()}.<br>
-          Arrais Advogados · OAB MG, SP, RJ, PA · Ubá/MG · arraisadvogados.com.br
+          <strong>Arrais Sociedade de Advogados</strong> · OAB/MG nº 19.391 · CNPJ 60.284.876/0001-39<br>
+          Rua Carlos Peixoto Filho, n.º 112, Salas 203, 204 e 209 · Ed. Otocy Vilela Eiras<br>
+          Centro · Ubá/MG · CEP 36500-097 · (32) 99844-6488 · contato@arraisadv.com.br
         </div>
       </div>
     `;
@@ -4400,6 +5462,7 @@
   document.getElementById('seg-des-recebeu-antes').dispatchEvent(new Event('change'));
   document.getElementById('insalub-base').dispatchEvent(new Event('change'));
   document.getElementById('atualiz-aplicar').dispatchEvent(new Event('change'));
+  inicializarTodosModosPleito();
   renderListaPeriodos();
 
   const inicial = getInputs();
